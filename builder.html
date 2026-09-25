@@ -64,7 +64,7 @@ code{font-family:var(--mono)}
 [hidden]{display:none!important}
 html.lock,html.lock *{cursor:inherit!important;user-select:none!important;-webkit-user-select:none!important}
 
-.app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+.app{height:100%;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto}
 @media (max-width:1060px){.app{height:auto;min-height:100%}}
 
 /* top bar */
@@ -79,6 +79,7 @@ html.lock,html.lock *{cursor:inherit!important;user-select:none!important;-webki
 .meta{font-size:.84rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .meta b{color:var(--ink);font-weight:600}
 @media (max-width:760px){.meta{display:none}}
+@media (max-width:480px){.bar{gap:8px;padding:10px 12px}.bar .div{display:none}.back{font-size:0;gap:0;padding:6px}}
 .theme{display:flex;gap:2px;padding:2px;border-radius:10px;background:var(--stage);border:1px solid var(--line)}
 .theme button{width:32px;height:28px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--soft);cursor:pointer}
 .theme button[aria-checked="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm),0 0 0 1px var(--line)}
@@ -228,7 +229,7 @@ html.lock,html.lock *{cursor:inherit!important;user-select:none!important;-webki
 .dock{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--line);background:var(--surface);flex-wrap:wrap}
 .dock .seg{width:250px}
 .snip{flex:1;min-width:220px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 6px 6px 12px;background:var(--stage);border-radius:10px;border:1px solid var(--line)}
-.snip code{font-size:.82rem;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.snip code{min-width:0;font-size:.82rem;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
 .snip code::-webkit-scrollbar{display:none}
 .copy{flex:none;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:5px 10px;font-size:.8rem;font-weight:600;cursor:pointer;box-shadow:var(--shadow-xs)}
 .copy:hover{background:var(--stage)}
