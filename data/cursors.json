@@ -5,7 +5,7 @@
     "group": "general",
     "css": "auto",
     "line": "Lets the browser choose. Use it to undo an override.",
-    "description": "cursor: auto lets the browser pick the cursor from context: an I-beam over text and an arrow elsewhere. See it live and copy the CSS, Tailwind or JSX.",
+    "description": "cursor: auto lets the browser pick the cursor from context: an I-beam over text and a plain arrow everywhere else. Live demo and copy-ready CSS.",
     "hint": "Hover the sentence, the link, then the empty space around them.",
     "use": "The initial value. Set it to undo an inherited override.",
     "useFor": [
@@ -17,11 +17,10 @@
     ],
     "mistakes": [
       {
-        "text": "Setting pointer on html or body, so plain text and empty space look clickable",
-        "lint": "L07"
+        "text": "Forgetting that cursor is inherited, so a parent’s pointer shows on every child. Set auto on children that shouldn’t look clickable."
       }
     ],
-    "systems": "Resolves to the platform’s own arrow or I-beam, so it always matches what the visitor is used to.",
+    "systems": "Resolves to the system’s own arrow or I-beam, drawn by the OS.",
     "related": [
       "default",
       "text",
@@ -62,7 +61,7 @@
     "group": "general",
     "css": "none",
     "line": "Hides the cursor. Always draw your own replacement.",
-    "description": "cursor: none hides the cursor completely. Use it for games, video playback and custom cursors, and always draw a replacement. Live demo and CSS to copy.",
+    "description": "cursor: none hides the cursor completely. Use it for games, video playback and custom cursors, and draw a replacement. Live demo and copy-ready CSS.",
     "hint": "Move your pointer inside the dark area.",
     "use": "Custom cursors, games, and video players that hide the pointer during playback. Always draw a replacement.",
     "useFor": [
@@ -92,7 +91,7 @@
     "group": "status",
     "css": "context-menu",
     "line": "More actions are available on right-click.",
-    "description": "cursor: context-menu signals that more actions wait behind a right-click. Use it on rows, files and canvas objects with a custom menu. Live demo and CSS.",
+    "description": "cursor: context-menu signals that more actions wait behind a right-click, on rows, files and objects on a canvas. Live demo and copy-ready CSS.",
     "hint": "Right-click or click a file to open its menu.",
     "use": "Rows and objects that keep extra actions behind a right-click.",
     "useFor": [
@@ -119,7 +118,7 @@
     "group": "status",
     "css": "help",
     "line": "Help is available, usually as a tooltip.",
-    "description": "cursor: help shows that more information is available, usually in a tooltip. Use it on info icons and terms that explain themselves. Live demo and CSS.",
+    "description": "cursor: help shows that more information is available, usually in a tooltip on an info icon or an unfamiliar term. Live demo and copy-ready CSS.",
     "hint": "Hover the question mark next to the label.",
     "use": "Info icons and terms that explain themselves in a tooltip.",
     "useFor": [
@@ -134,7 +133,7 @@
         "text": "Showing the help on hover only, with no way to open it by keyboard or touch"
       }
     ],
-    "systems": "Usually an arrow with a small question mark. Some systems draw only the question mark, and touch screens show nothing.",
+    "systems": "Usually an arrow with a question mark. The exact look varies by system, and touch screens show nothing.",
     "related": [
       "pointer",
       "context-menu",
@@ -147,7 +146,7 @@
     "group": "status",
     "css": "pointer",
     "line": "For links, buttons, and anything clickable.",
-    "description": "cursor: pointer shows the hand that marks links, buttons and anything clickable. Not for plain text or disabled controls. Live demo and copy-ready CSS.",
+    "description": "cursor: pointer shows the hand for links, buttons and anything clickable. Not for plain text or disabled controls. Live demo and copy-ready CSS.",
     "hint": "Hover the shoe or the button, pick a size, then add it to your bag.",
     "use": "Links, buttons, and clickable cards. Not for plain text or disabled controls.",
     "useFor": [
@@ -182,7 +181,7 @@
     "group": "status",
     "css": "progress",
     "line": "Busy in the background, but still usable.",
-    "description": "cursor: progress shows the app is busy in the background but still accepts input. Use it for syncs, uploads and exports. Live demo and copy-ready CSS.",
+    "description": "cursor: progress shows the app is busy in the background but still accepts input, as during syncs and uploads. Live demo and copy-ready CSS.",
     "hint": "Start the sync, then keep moving around the card.",
     "use": "Syncs, uploads, and exports that don’t block the interface.",
     "useFor": [
@@ -209,7 +208,7 @@
     "group": "status",
     "css": "wait",
     "line": "Busy and blocking input. Pair it with a spinner.",
-    "description": "cursor: wait shows the app is busy and can’t take input yet. Use it for short, blocking operations, together with a visible spinner. Live demo and CSS.",
+    "description": "cursor: wait shows the app is busy and can’t take input yet. Use it for short blocking tasks, next to a spinner. Live demo and copy-ready CSS.",
     "hint": "Click Publish and hover while it works.",
     "use": "Short, blocking operations. Pair it with a visible spinner or message.",
     "useFor": [
@@ -239,7 +238,7 @@
     "group": "selection",
     "css": "cell",
     "line": "Selects a cell or a range in a grid.",
-    "description": "cursor: cell shows that a cell or a range of cells can be selected, as in a spreadsheet. Use it in editable data grids. Live demo and copy-ready CSS.",
+    "description": "cursor: cell shows that a cell or a range of cells can be selected, as in spreadsheets and editable data grids. Live demo and copy-ready CSS.",
     "hint": "Drag across the grid to select a range.",
     "use": "Spreadsheets and editable data grids.",
     "useFor": [
@@ -266,7 +265,7 @@
     "group": "selection",
     "css": "crosshair",
     "line": "Precise selection for cropping, screenshots, and charts.",
-    "description": "cursor: crosshair gives precise two-dimensional selection for cropping, screenshots and plotting points on charts. See it live and copy the CSS.",
+    "description": "cursor: crosshair gives precise two-dimensional selection for cropping, screenshots and plotting points on charts. Live demo and copy-ready CSS.",
     "hint": "Drag anywhere to capture a region.",
     "use": "Screenshot tools, image cropping, and plotting points on a chart.",
     "useFor": [
@@ -283,7 +282,7 @@
         "lint": "L01"
       }
     ],
-    "systems": "Thin crossing lines on every desktop system. On busy or dark backgrounds they can be hard to see.",
+    "systems": "Usually thin crossing lines. On busy or dark backgrounds they can be hard to see, so test it where it will be used.",
     "related": [
       "cell",
       "move",
@@ -296,7 +295,7 @@
     "group": "selection",
     "css": "text",
     "line": "Text can be selected or edited. Set it on the whole box.",
-    "description": "cursor: text shows the I-beam that means text can be selected or edited. Set it on the whole editable box so the padding shows it too. Live demo.",
+    "description": "cursor: text shows the I-beam for text that can be selected or edited. Set it on the whole box, padding included. Live demo and copy-ready CSS.",
     "hint": "Hover the padding inside each box and compare.",
     "use": "Editable areas that aren’t native inputs. Set it on the whole box so the padding shows an I-beam too.",
     "useFor": [
@@ -324,7 +323,7 @@
     "group": "selection",
     "css": "vertical-text",
     "line": "Selectable text in a vertical writing mode.",
-    "description": "cursor: vertical-text is the sideways I-beam for text in a vertical writing mode, common in Japanese, Chinese and Korean layouts. Live demo and CSS.",
+    "description": "cursor: vertical-text is the sideways I-beam for text in a vertical writing mode, as in Japanese or Chinese layouts. Live demo and copy-ready CSS.",
     "hint": "Hover and select the poem.",
     "use": "Content set with writing-mode: vertical-rl, common in Japanese, Chinese and Korean typography.",
     "useFor": [
@@ -336,7 +335,7 @@
     ],
     "mistakes": [
       {
-        "text": "Changing the cursor but not writing-mode, so horizontal text shows a sideways I-beam"
+        "text": "Setting vertical-text on horizontal text, so the I-beam is turned the wrong way."
       }
     ],
     "related": [
@@ -350,7 +349,7 @@
     "group": "drag",
     "css": "alias",
     "line": "Creates a shortcut instead of moving the item.",
-    "description": "cursor: alias shows that a shortcut or link will be created instead of moving the item. Use it for pinning and bookmarking. Live demo and CSS to copy.",
+    "description": "cursor: alias shows that a shortcut or link will be created instead of moving the item, as when pinning or bookmarking. Live demo and copy-ready CSS.",
     "hint": "Click a file to pin a shortcut.",
     "use": "Pinning, bookmarking, and linking to an item that stays where it is.",
     "useFor": [
@@ -377,7 +376,7 @@
     "group": "drag",
     "css": "copy",
     "line": "Something will be copied, by click or by drag.",
-    "description": "cursor: copy shows that something will be copied, by click or by drag. Use it for copy-to-clipboard fields and duplicating drags. Live demo and CSS.",
+    "description": "cursor: copy shows that something will be copied, by click or by drag, as in copy fields and duplicating drags. Live demo and copy-ready CSS.",
     "hint": "Click the code to copy it.",
     "use": "Copy-to-clipboard fields and drags that duplicate instead of move.",
     "useFor": [
@@ -404,7 +403,7 @@
     "group": "drag",
     "css": "move",
     "line": "Moves an object freely on a canvas.",
-    "description": "cursor: move shows that an object can be moved freely, as on a design canvas or whiteboard. See it live and copy the CSS, Tailwind or JSX in one click.",
+    "description": "cursor: move shows that an object can be moved freely, as on a design canvas, a whiteboard or a layout editor. Live demo and copy-ready CSS.",
     "hint": "Drag the logo around the canvas.",
     "use": "Objects on design canvases, whiteboards, and layout editors.",
     "useFor": [
@@ -459,7 +458,7 @@
     "group": "drag",
     "css": "not-allowed",
     "line": "The action is unavailable. Always explain why nearby.",
-    "description": "cursor: not-allowed shows that the action won’t happen. Use it on disabled controls, and always explain why nearby. Live demo and copy-ready CSS.",
+    "description": "cursor: not-allowed shows that the action won’t happen. Use it on disabled controls, and explain why right nearby. Live demo and copy-ready CSS.",
     "hint": "Hover the button, then accept the terms.",
     "use": "Disabled controls. Always say why nearby, since a cursor alone can’t explain.",
     "useFor": [
@@ -490,7 +489,7 @@
     "group": "drag",
     "css": "grab",
     "line": "Can be grabbed and dragged, before the button is pressed.",
-    "description": "cursor: grab shows the open hand for things that can be dragged, before the button is pressed. Pair it with grabbing while held. Live demo and CSS.",
+    "description": "cursor: grab shows the open hand for things that can be dragged, before the button is pressed. Pair it with grabbing. Live demo and copy-ready CSS.",
     "hint": "Drag the photo strip sideways.",
     "use": "Pannable strips, carousels, and draggable cards, before the button is pressed.",
     "useFor": [
@@ -535,7 +534,7 @@
     ],
     "mistakes": [
       {
-        "text": "Setting it only with :active, so it’s lost if the pointer leaves the element mid-drag"
+        "text": "Relying only on :active, which shows grabbing only while the pointer stays over the element. For drags, set it on the document until release."
       },
       {
         "text": "Keeping the old -webkit-grabbing prefix",
@@ -554,7 +553,7 @@
     "group": "resize",
     "css": "n-resize",
     "line": "The edge moves up only, like a bottom sheet.",
-    "description": "cursor: n-resize shows an edge that can only move up, like the top of a bottom sheet. Prefer ns-resize if it moves both ways. Live demo and CSS.",
+    "description": "cursor: n-resize shows an edge that can only move up, like the top of a bottom sheet. Prefer ns-resize for two ways. Live demo and copy-ready CSS.",
     "hint": "Drag the handle on the edge.",
     "use": "An edge that can only grow upward, like a bottom sheet.",
     "useFor": [
@@ -566,7 +565,7 @@
     ],
     "mistakes": [
       {
-        "text": "Expecting a one-way arrow on Windows, which draws a two-headed arrow for every one-way value"
+        "text": "Using it on an edge that can also move down, which needs ns-resize"
       }
     ],
     "related": [
@@ -581,7 +580,7 @@
     "group": "resize",
     "css": "s-resize",
     "line": "The edge moves down only, like an expanding field.",
-    "description": "cursor: s-resize shows an edge that can only move down, like the bottom of an expanding notes field. Prefer ns-resize if it moves both ways.",
+    "description": "cursor: s-resize shows an edge that can only move down, like an expanding notes field. Prefer ns-resize for two ways. Live demo and copy-ready CSS.",
     "hint": "Drag the handle on the edge.",
     "use": "An edge that can only grow downward, like an expanding notes field.",
     "useFor": [
@@ -593,7 +592,7 @@
     ],
     "mistakes": [
       {
-        "text": "Expecting a one-way arrow on Windows, which draws a two-headed arrow for every one-way value"
+        "text": "Using it on a field that can also shrink upward, which needs ns-resize"
       }
     ],
     "related": [
@@ -608,7 +607,7 @@
     "group": "resize",
     "css": "e-resize",
     "line": "The edge moves right only, like a left sidebar.",
-    "description": "cursor: e-resize shows an edge that can only move right, like the edge of a sidebar docked left. Prefer ew-resize if it moves both ways. Live demo.",
+    "description": "cursor: e-resize shows an edge that can only move right, like a sidebar docked left. Prefer ew-resize for two ways. Live demo and copy-ready CSS.",
     "hint": "Drag the handle on the edge.",
     "use": "The right edge of a sidebar docked to the left.",
     "useFor": [
@@ -620,7 +619,7 @@
     ],
     "mistakes": [
       {
-        "text": "Expecting a one-way arrow on Windows, which draws a two-headed arrow for every one-way value"
+        "text": "Using it on a sidebar edge that can also shrink, which needs ew-resize"
       }
     ],
     "related": [
@@ -635,7 +634,7 @@
     "group": "resize",
     "css": "w-resize",
     "line": "The edge moves left only, like a right-hand inspector.",
-    "description": "cursor: w-resize shows an edge that can only move left, like the edge of an inspector docked right. Prefer ew-resize if it moves both ways. Live demo.",
+    "description": "cursor: w-resize shows an edge that can only move left, like an inspector docked right. Prefer ew-resize for two ways. Live demo and copy-ready CSS.",
     "hint": "Drag the handle on the edge.",
     "use": "The left edge of an inspector docked to the right.",
     "useFor": [
@@ -647,7 +646,7 @@
     ],
     "mistakes": [
       {
-        "text": "Expecting a one-way arrow on Windows, which draws a two-headed arrow for every one-way value"
+        "text": "Using it on an inspector edge that can also shrink, which needs ew-resize"
       }
     ],
     "related": [
@@ -662,7 +661,7 @@
     "group": "resize",
     "css": "ne-resize",
     "line": "The corner moves up and right, for panels docked bottom-left.",
-    "description": "cursor: ne-resize shows a corner that can only move up and to the right, like a panel docked bottom-left. Prefer nesw-resize for two-way corners.",
+    "description": "cursor: ne-resize shows a corner that can only move up and right, like a panel docked bottom-left. Or use nesw-resize. Live demo and copy-ready CSS.",
     "hint": "Drag the corner handle.",
     "use": "The free corner of a panel docked bottom-left.",
     "useFor": [
@@ -674,7 +673,7 @@
     ],
     "mistakes": [
       {
-        "text": "Expecting a one-way arrow on Windows, which draws a two-headed arrow for every one-way value"
+        "text": "Using it on a corner that can also move down and left, which needs nesw-resize"
       }
     ],
     "related": [
@@ -689,7 +688,7 @@
     "group": "resize",
     "css": "nw-resize",
     "line": "The corner moves up and left, for chat widgets docked bottom-right.",
-    "description": "cursor: nw-resize shows a corner that can only move up and to the left, like a chat widget docked bottom-right. Prefer nwse-resize for two-way corners.",
+    "description": "cursor: nw-resize shows a corner that can only move up and left, like a chat docked bottom-right. Or use nwse-resize. Live demo and copy-ready CSS.",
     "hint": "Drag the corner handle.",
     "use": "The free corner of a chat widget docked bottom-right.",
     "useFor": [
@@ -701,7 +700,7 @@
     ],
     "mistakes": [
       {
-        "text": "Expecting a one-way arrow on Windows, which draws a two-headed arrow for every one-way value"
+        "text": "Using it on a corner that can also move down and right, which needs nwse-resize"
       }
     ],
     "related": [
@@ -716,7 +715,7 @@
     "group": "resize",
     "css": "se-resize",
     "line": "The corner moves down and right, for notes pinned top-left.",
-    "description": "cursor: se-resize shows a corner that can only move down and to the right, like a note pinned top-left. Prefer nwse-resize for two-way corners.",
+    "description": "cursor: se-resize shows a corner that can only move down and right, like a note pinned top-left. Or use nwse-resize. Live demo and copy-ready CSS.",
     "hint": "Drag the corner handle.",
     "use": "The free corner of a note pinned top-left.",
     "useFor": [
@@ -728,7 +727,7 @@
     ],
     "mistakes": [
       {
-        "text": "Expecting a one-way arrow on Windows, which draws a two-headed arrow for every one-way value"
+        "text": "Using it on a corner that can also move up and left, which needs nwse-resize"
       }
     ],
     "related": [
@@ -743,7 +742,7 @@
     "group": "resize",
     "css": "sw-resize",
     "line": "The corner moves down and left, for menus anchored top-right.",
-    "description": "cursor: sw-resize shows a corner that can only move down and to the left, like a menu anchored top-right. Prefer nesw-resize for two-way corners.",
+    "description": "cursor: sw-resize shows a corner that can only move down and left, like a menu anchored top-right. Or use nesw-resize. Live demo and copy-ready CSS.",
     "hint": "Drag the corner handle.",
     "use": "The free corner of a menu anchored top-right.",
     "useFor": [
@@ -755,7 +754,7 @@
     ],
     "mistakes": [
       {
-        "text": "Expecting a one-way arrow on Windows, which draws a two-headed arrow for every one-way value"
+        "text": "Using it on a corner that can also move up and right, which needs nesw-resize"
       }
     ],
     "related": [
@@ -770,7 +769,7 @@
     "group": "resize",
     "css": "ew-resize",
     "line": "Resizes left and right, for sliders and vertical dividers.",
-    "description": "cursor: ew-resize shows something that resizes left and right, like a before-and-after slider or a vertical divider. See it live and copy the CSS.",
+    "description": "cursor: ew-resize shows something that resizes left and right, like a before-and-after slider or a vertical divider. Live demo and copy-ready CSS.",
     "hint": "Drag the divider left or right.",
     "use": "Before-and-after sliders, vertical dividers, and range handles.",
     "useFor": [
@@ -783,7 +782,7 @@
     ],
     "mistakes": [
       {
-        "text": "Setting it on the whole slider instead of the handle, so every part looks draggable"
+        "text": "Making the handle only as wide as the visible line. Keep the draggable area at least 24 px wide."
       }
     ],
     "related": [
@@ -798,7 +797,7 @@
     "group": "resize",
     "css": "ns-resize",
     "line": "Resizes up and down, for bottom panels and consoles.",
-    "description": "cursor: ns-resize shows something that resizes up and down, like a bottom panel, terminal or console. See it live and copy the CSS, Tailwind or JSX.",
+    "description": "cursor: ns-resize shows something that resizes up and down, like a bottom panel, a terminal or a debug console. Live demo and copy-ready CSS.",
     "hint": "Drag the terminal’s top edge.",
     "use": "Bottom panels like a terminal, console, or timeline.",
     "useFor": [
@@ -825,7 +824,7 @@
     "group": "resize",
     "css": "nesw-resize",
     "line": "Diagonal resize for the top-right and bottom-left corners.",
-    "description": "cursor: nesw-resize resizes diagonally from the top-right and bottom-left corners, as on crop boxes and selection frames. Live demo and CSS to copy.",
+    "description": "cursor: nesw-resize resizes diagonally from the top-right and bottom-left corners, as on crop boxes and selections. Live demo and copy-ready CSS.",
     "hint": "Drag either corner handle.",
     "use": "The matching corner pair of crop boxes and selections.",
     "useFor": [
@@ -852,7 +851,7 @@
     "group": "resize",
     "css": "nwse-resize",
     "line": "Diagonal resize for the top-left and bottom-right corners.",
-    "description": "cursor: nwse-resize resizes diagonally from the top-left and bottom-right corners, as on images and windows. See it live and copy the CSS or Tailwind.",
+    "description": "cursor: nwse-resize resizes diagonally from the top-left and bottom-right corners, as on images and app windows. Live demo and copy-ready CSS.",
     "hint": "Drag either corner handle.",
     "use": "The matching corner pair for resizing images and windows.",
     "useFor": [
@@ -879,7 +878,7 @@
     "group": "resize",
     "css": "col-resize",
     "line": "For column dividers in tables and grids.",
-    "description": "cursor: col-resize shows a column divider that can be dragged sideways, as in tables and data grids. See it live and copy the CSS, Tailwind or JSX.",
+    "description": "cursor: col-resize shows a column divider that can be dragged sideways, as in tables, spreadsheets and data grids. Live demo and copy-ready CSS.",
     "hint": "Drag a column divider in the header.",
     "use": "Column dividers in tables and data grids.",
     "useFor": [
@@ -906,7 +905,7 @@
     "group": "resize",
     "css": "row-resize",
     "line": "For dividers between stacked panes.",
-    "description": "cursor: row-resize shows a divider between stacked panes that can be dragged up and down, like a query and its results. Live demo and CSS to copy.",
+    "description": "cursor: row-resize shows a divider between stacked panes that can be dragged up and down, like a query and its results. Live demo and copy-ready CSS.",
     "hint": "Drag the bar between the two panes.",
     "use": "Split panes stacked on top of each other, like a query and its results.",
     "useFor": [
@@ -933,16 +932,16 @@
     "group": "scroll",
     "css": "all-scroll",
     "line": "Pans in any direction, like a map.",
-    "description": "cursor: all-scroll shows content that can be panned in any direction, like a map or a large canvas. See it live and copy the CSS, Tailwind or JSX.",
+    "description": "cursor: all-scroll shows content that can be panned in any direction, like a map, a floor plan or a large canvas. Live demo and copy-ready CSS.",
     "hint": "Drag the map in any direction.",
     "use": "Maps, large canvases, and middle-click autoscroll.",
     "useFor": [
       "Maps",
       "Large canvases and diagrams",
-      "Middle-click autoscroll areas"
+      "Floor plans and seating charts"
     ],
     "avoid": [
-      "Objects that move on their own, which need move"
+      "Single objects that can be dragged, which need move"
     ],
     "mistakes": [
       {
@@ -962,7 +961,7 @@
     "group": "scroll",
     "css": "zoom-in",
     "line": "Magnifies an image or product photo on click.",
-    "description": "cursor: zoom-in shows that clicking magnifies an image or product photo. Swap it for zoom-out once zoomed. Live demo and copy-ready CSS or Tailwind.",
+    "description": "cursor: zoom-in shows that clicking magnifies an image or product photo. Swap it for zoom-out once the image is zoomed. Live demo and copy-ready CSS.",
     "hint": "Click the photo to zoom in.",
     "use": "Product photos and image viewers in their normal state.",
     "useFor": [
@@ -993,7 +992,7 @@
     "group": "scroll",
     "css": "zoom-out",
     "line": "The zoomed state. Click to return to normal size.",
-    "description": "cursor: zoom-out shows the zoomed state: clicking returns the image to its normal size. Swap it back to zoom-in each time. Live demo and CSS.",
+    "description": "cursor: zoom-out shows the zoomed state, where a click returns the image to normal size. Swap back to zoom-in after. Live demo and copy-ready CSS.",
     "hint": "Click the photo to zoom out.",
     "use": "The zoomed state of the same viewer. Swap the two on each click.",
     "useFor": [
@@ -1024,7 +1023,7 @@
     "group": "custom",
     "css": "url(\"brush.svg\") 4 28, crosshair",
     "line": "Your own image. Keep it 32 × 32 px with a keyword fallback.",
-    "description": "cursor: url() sets your own image as the cursor, with an x y hotspot and a keyword fallback. Keep it 32 × 32 px or smaller. Live demo and editor.",
+    "description": "cursor: url() sets your own image as the cursor, with an x y hotspot and a keyword fallback. Keep it 32 × 32 px or smaller. Live demo and copy-ready CSS.",
     "hint": "Draw on the canvas with the brush.",
     "use": "Tool cursors like brushes and pens. Keep images at 32 × 32 px or smaller, and always end with a keyword.",
     "useFor": [

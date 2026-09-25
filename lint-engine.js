@@ -332,7 +332,7 @@ const MSG = {
   L06tw: 'Disabled controls can’t be clicked, so cursor-pointer promises something that won’t happen. Use cursor-not-allowed, or add disabled:cursor-not-allowed so it switches on its own.',
   L06mixed: 'Some selectors in this list target a disabled state. Move them into their own rule with cursor: not-allowed.',
   L07: 'Setting pointer on html, body, * or :root makes plain text and empty space look clickable. Use auto, and set pointer only on links and buttons.',
-  L08: 'Nothing switches this to grabbing while it’s held, so the hand never closes. Add an :active rule, unless your JavaScript already swaps the cursor.',
+  L08: 'Nothing switches this to grabbing while it’s held, so the hand never closes. Add an :active rule, unless your JavaScript already swaps the cursor. For drags that can leave the element, set grabbing on the document until pointerup.',
   L10: 'Draw a replacement, and bring the cursor back when the pointer leaves the area or goes idle, or people lose track of it.',
   L11: 'This rule sets cursor again further down, so this line never applies.',
   L12: 'Without x and y numbers the click point is 0 0, the top-left corner of the image. Set it so clicks land where the cursor points. Cursor Studio can find it for you.'
