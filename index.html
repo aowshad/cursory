@@ -448,6 +448,19 @@ footer{border-top:1px solid var(--line);margin-top:96px;background:var(--stage)}
 .win-tog{position:relative;width:28px;height:16px;border-radius:9px;background:var(--accent)}
 .win-tog::after{content:"";position:absolute;right:2px;top:2px;width:12px;height:12px;border-radius:50%;background:#fff}
 .cta-cap{font-size:.8rem;color:var(--muted);margin:0}
+.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch}
+.tools .cta{grid-template-columns:minmax(0,1fr);align-content:start;gap:28px;padding:32px}
+.tools .cta h2{font-size:clamp(1.6rem,2.6vw,2.1rem)}
+@media (max-width:900px){.tools{grid-template-columns:minmax(0,1fr)}.tools .cta{padding:24px}}
+@media (max-width:520px){.compact .tools .cta-art{display:none}}
+.lwin-body{padding:10px 0;font:400 .74rem/2 var(--mono);text-align:left}
+.lwin-l{display:flex;align-items:center;gap:10px;padding:0 12px;white-space:nowrap}
+.lwin-l i{flex:none;width:12px;font-style:normal;text-align:right;color:var(--soft)}
+.lwin-l code{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.lwin-l em{flex:none;width:8px;height:8px;margin-left:auto;border-radius:50%;background:var(--danger)}
+.lwin-l.bad{background:color-mix(in srgb,var(--danger) 10%,transparent)}
+.lwin-l.add{background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.lwin-l.add i{color:var(--ok)}
 .sys-note{margin-bottom:16px}
 .sys-table{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-xs);overflow:hidden}
 .sys-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;padding:18px 22px;align-items:start}
@@ -523,7 +536,9 @@ footer{border-top:1px solid var(--line);margin-top:96px;background:var(--stage)}
 <div class="dlg-scrim" id="dlg-scrim"><div class="dlg" id="dlg" role="dialog" aria-modal="true"><div class="dlg-bar"><button class="dlg-x" type="button" id="dlg-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div id="dlg-body"></div></div></div>
 <div class="wrap"><p class="empty" id="empty"></p></div>
 <div class="wrap" id="extras">
-  <section class="extra" id="studio">
+  <section class="extra" id="tools">
+    <div class="group-head"><div><h2>Tools</h2><p>Two free tools that put these rules to work. Both run entirely in your browser.</p></div></div>
+    <div class="tools">
     <div class="cta" id="ctaCard">
       <div class="cta-copy">
         <span class="badge"><i></i>Cursor Studio</span>
@@ -555,6 +570,33 @@ footer{border-top:1px solid var(--line);margin-top:96px;background:var(--stage)}
         </div>
         <p class="cta-cap">Hover this card. Its brush cursor was made in Studio.</p>
       </div>
+    </div>
+    <div class="cta" id="lintCard">
+      <div class="cta-copy">
+        <span class="badge"><i></i>Cursor Lint</span>
+        <h2>Ship cursors without mistakes.</h2>
+        <p>Paste CSS or HTML and Cursor Lint finds invalid values, missing fallbacks, pointer on disabled controls and more, then fixes them in one click.</p>
+        <div class="cta-actions">
+          <a class="btn lg" href="lint.html">Open Cursor Lint<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="muted">Your code never leaves your browser</span>
+        </div>
+        <ul class="cta-feats">
+          <li>12 rules</li><li>One-click fixes</li><li>Runs in your browser</li><li>Share results</li>
+        </ul>
+      </div>
+      <div class="cta-art" aria-hidden="true">
+        <div class="win lwin">
+          <div class="win-bar"><span></span><span></span><span></span><b>Cursor Lint</b></div>
+          <div class="lwin-body">
+            <div class="lwin-l"><i>1</i><code>.btn { cursor: pointer; }</code></div>
+            <div class="lwin-l bad"><i>2</i><code>.btn:disabled { cursor: pointer; }</code><em></em></div>
+            <div class="lwin-l add"><i>+</i><code>.btn:disabled { cursor: not-allowed; }</code></div>
+            <div class="lwin-l"><i>3</i><code>.map { cursor: grab; }</code></div>
+            <div class="lwin-l"><i>4</i><code>.map:active { cursor: grabbing; }</code></div>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   </section>
 
@@ -864,8 +906,8 @@ G.forEach(g=>{
   });
   main.appendChild(sec);
 });
-chips.insertAdjacentHTML('beforeend','<a class="chip" href="#studio">Cursor Studio</a><a class="chip" href="#systems">Across systems</a>');
-$('#foot-groups').innerHTML=G.map(g=>`<li><a href="#${g.id}">${g.t}</a></li>`).join('')+'<li><a href="#studio">Cursor Studio</a></li><li><a href="#systems">Across systems</a></li>';
+chips.insertAdjacentHTML('beforeend','<a class="chip" href="#tools">Tools</a><a class="chip" href="#systems">Across systems</a>');
+$('#foot-groups').innerHTML=G.map(g=>`<li><a href="#${g.id}">${g.t}</a></li>`).join('')+'<li><a href="builder.html">Cursor Studio</a></li><li><a href="lint.html">Cursor Lint</a></li><li><a href="#systems">Across systems</a></li>';
 const setTheme=t=>{root.setAttribute('data-theme',t);$$('.theme button').forEach(b=>b.setAttribute('aria-checked',b.dataset.t===t));try{localStorage.setItem('cursory-theme',t)}catch(_){}};
 setTheme(root.getAttribute('data-theme')||'light');
 $$('.theme button').forEach(b=>{b.addEventListener('click',()=>setTheme(b.dataset.t));b.addEventListener('keydown',e=>{if(/Arrow(Left|Right|Up|Down)/.test(e.key)){e.preventDefault();const n=b.dataset.t==='light'?'dark':'light';setTheme(n);$(`.theme [data-t="${n}"]`).focus()}})});

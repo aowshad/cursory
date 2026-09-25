@@ -1,0 +1,13 @@
+{
+  "name": "cursory",
+  "private": true,
+  "type": "module",
+  "description": "Dev-only tooling for Cursory. The site itself has no dependencies.",
+  "scripts": {
+    "test": "node tests/lint.test.mjs"
+  },
+  "devDependencies": {
+    "css-tree": "2.3.1",
+    "linkedom": "0.18.13"
+  }
+}

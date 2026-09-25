@@ -1,0 +1,429 @@
+[
+  {
+    "name": "spec sample: 10 issues in order, Fix all leaves the unfixable tip",
+    "input": "/* Paste your CSS or HTML here */\n.btn { cursor: pointer; }\n.btn:disabled { cursor: pointer; opacity: .5; }\n.carousel { cursor: -webkit-grab; cursor: grab; }\n.brush { cursor: url(\"brush.png\") 4 28; }\n.link { cursor: hand; }\n.canvas { cursor: crosshar; }\nbody { cursor: pointer; }\n.game { cursor: none; }\n\n<div class=\"card\" onclick=\"openCard()\">Open project</div>\n<button disabled class=\"cursor-pointer\">Pay now</button>\n",
+    "expect": [
+      "L06",
+      "L03",
+      "L08",
+      "L04",
+      "L02",
+      "L01",
+      "L07",
+      "L10",
+      "L09",
+      "L06"
+    ],
+    "fixed": "/* Paste your CSS or HTML here */\n.btn { cursor: pointer; }\n.btn:disabled { cursor: not-allowed; opacity: .5; }\n.carousel { cursor: grab; }\n.carousel:active { cursor: grabbing; }\n.brush { cursor: url(\"brush.png\") 4 28, auto; }\n.link { cursor: pointer; }\n.canvas { cursor: crosshair; }\nbody { cursor: auto; }\n.game { cursor: none; }\n\n<div role=\"button\" tabindex=\"0\" style=\"cursor:pointer\" class=\"card\" onclick=\"openCard()\">Open project</div>\n<button disabled class=\"cursor-not-allowed\">Pay now</button>\n"
+  },
+  {
+    "name": "L01 typo gets a suggestion and a fix",
+    "input": ".a { cursor: pointr; }",
+    "expect": [
+      "L01"
+    ],
+    "fixed": ".a { cursor: pointer; }"
+  },
+  {
+    "name": "L01 unknown word without a close match has no fix",
+    "input": ".a { cursor: banana; }",
+    "expect": [
+      "L01"
+    ],
+    "fixed": ".a { cursor: banana; }"
+  },
+  {
+    "name": "L01 non-image before the fallback",
+    "input": ".a { cursor: pointer, auto; }",
+    "expect": [
+      "L01"
+    ]
+  },
+  {
+    "name": "L01 does not fire on keywords in any case",
+    "input": ".a { cursor: POINTER; } .b { cursor: Zoom-In; }",
+    "expect": []
+  },
+  {
+    "name": "L01 does not fire on CSS-wide keywords",
+    "input": ".a { cursor: inherit; } .b { cursor: revert-layer; } .c { cursor: unset; }",
+    "expect": []
+  },
+  {
+    "name": "L01 does not fire on var(--cursor)",
+    "input": ".a { cursor: var(--cursor); } .b { cursor: var(--c, pointr); }",
+    "expect": []
+  },
+  {
+    "name": "L02 cursor: hand becomes pointer",
+    "input": ".link { cursor: hand; }",
+    "expect": [
+      "L02"
+    ],
+    "fixed": ".link { cursor: pointer; }"
+  },
+  {
+    "name": "L02 does not fire on a class named hand",
+    "input": ".hand { cursor: pointer; }",
+    "expect": []
+  },
+  {
+    "name": "L03 removes the prefix when the standard value is already set",
+    "input": ".x { cursor: -webkit-grab; cursor: grab; }\n.x:active { cursor: grabbing; }",
+    "expect": [
+      "L03"
+    ],
+    "fixed": ".x { cursor: grab; }\n.x:active { cursor: grabbing; }"
+  },
+  {
+    "name": "L03 replaces a lone prefixed zoom value",
+    "input": ".z { cursor: -webkit-zoom-in; }",
+    "expect": [
+      "L03"
+    ],
+    "fixed": ".z { cursor: zoom-in; }"
+  },
+  {
+    "name": "L03 replaces -moz-grabbing",
+    "input": ".x:active { cursor: -moz-grabbing; }",
+    "expect": [
+      "L03"
+    ],
+    "fixed": ".x:active { cursor: grabbing; }"
+  },
+  {
+    "name": "L03 replaces a prefixed fallback keyword after url()",
+    "input": ".a { cursor: url(a.png) 1 1, -webkit-grabbing; }",
+    "expect": [
+      "L03"
+    ],
+    "fixed": ".a { cursor: url(a.png) 1 1, grabbing; }"
+  },
+  {
+    "name": "L03 does not fire on standard values",
+    "input": ".x { cursor: zoom-in; } .y { cursor: zoom-out; }",
+    "expect": []
+  },
+  {
+    "name": "L04 url() without a fallback gets , auto",
+    "input": ".b { cursor: url(\"brush.png\") 4 28; }",
+    "expect": [
+      "L04"
+    ],
+    "fixed": ".b { cursor: url(\"brush.png\") 4 28, auto; }"
+  },
+  {
+    "name": "L04 image-set() without a fallback",
+    "input": ".b { cursor: image-set(\"a.png\" 1x, \"a@2x.png\" 2x) 4 4; }",
+    "expect": [
+      "L04"
+    ],
+    "fixed": ".b { cursor: image-set(\"a.png\" 1x, \"a@2x.png\" 2x) 4 4, auto; }"
+  },
+  {
+    "name": "L04 does not fire on image-set() with a fallback",
+    "input": ".b { cursor: image-set(\"a.png\" 1x, \"a@2x.png\" 2x) 4 4, auto; }",
+    "expect": []
+  },
+  {
+    "name": "L04 does not fire on url() with a hotspot and fallback",
+    "input": ".b { cursor: url(a.svg) 2 2, pointer; } .c { cursor: url('a b.svg') 0 0, url(b.png) 3 3, auto; }",
+    "expect": []
+  },
+  {
+    "name": "L05 hotspot of 128 or more",
+    "input": ".b { cursor: url(big.png) 140 20, auto; }",
+    "expect": [
+      "L05"
+    ]
+  },
+  {
+    "name": "L05 does not fire at 127",
+    "input": ".b { cursor: url(ok.png) 127 127, auto; }",
+    "expect": []
+  },
+  {
+    "name": "L06 :disabled with pointer",
+    "input": "button:disabled { cursor: pointer; }",
+    "expect": [
+      "L06"
+    ],
+    "fixed": "button:disabled { cursor: not-allowed; }"
+  },
+  {
+    "name": "L06 [aria-disabled=\"true\"] selector",
+    "input": ".btn[aria-disabled=\"true\"] { cursor: pointer; }",
+    "expect": [
+      "L06"
+    ],
+    "fixed": ".btn[aria-disabled=\"true\"] { cursor: not-allowed; }"
+  },
+  {
+    "name": "L06 [disabled] and inactive class names",
+    "input": ".btn[disabled] { cursor: pointer; } .tab-inactive { cursor: pointer; }",
+    "expect": [
+      "L06",
+      "L06"
+    ],
+    "fixed": ".btn[disabled] { cursor: not-allowed; } .tab-inactive { cursor: not-allowed; }"
+  },
+  {
+    "name": "L06 ignores :not(:disabled)",
+    "input": ".btn:not(:disabled) { cursor: pointer; }",
+    "expect": []
+  },
+  {
+    "name": "L06 is fine with not-allowed",
+    "input": "button:disabled { cursor: not-allowed; }",
+    "expect": []
+  },
+  {
+    "name": "L06 mixed selector list is flagged without a fix",
+    "input": ".btn, .btn:disabled { cursor: pointer; }",
+    "expect": [
+      "L06"
+    ],
+    "fixed": ".btn, .btn:disabled { cursor: pointer; }"
+  },
+  {
+    "name": "L06 Tailwind class=\"cursor-pointer\" disabled",
+    "input": "<button class=\"cursor-pointer\" disabled>Pay</button>",
+    "expect": [
+      "L06"
+    ],
+    "fixed": "<button class=\"cursor-not-allowed\" disabled>Pay</button>"
+  },
+  {
+    "name": "L06 single-quoted style attribute",
+    "input": "<button disabled style='cursor: pointer'>Pay</button>",
+    "expect": [
+      "L06"
+    ],
+    "fixed": "<button disabled style='cursor: not-allowed'>Pay</button>"
+  },
+  {
+    "name": "L06 double-quoted style with aria-disabled",
+    "input": "<a aria-disabled=\"true\" style=\"color: red; cursor:pointer\" href=\"#\">Next</a>",
+    "expect": [
+      "L06"
+    ],
+    "fixed": "<a aria-disabled=\"true\" style=\"color: red; cursor:not-allowed\" href=\"#\">Next</a>"
+  },
+  {
+    "name": "L06 does not fire on enabled elements",
+    "input": "<button class=\"cursor-pointer\">Pay</button>\n<a style=\"cursor:pointer\" href=\"#\">Go</a>",
+    "expect": []
+  },
+  {
+    "name": "L07 pointer on body",
+    "input": "body { cursor: pointer; }",
+    "expect": [
+      "L07"
+    ],
+    "fixed": "body { cursor: auto; }"
+  },
+  {
+    "name": "L07 pointer on * and :root",
+    "input": "*, :root { cursor: pointer; }",
+    "expect": [
+      "L07"
+    ],
+    "fixed": "*, :root { cursor: auto; }"
+  },
+  {
+    "name": "L07 does not fire on descendants",
+    "input": "body a { cursor: pointer; } html .x { cursor: pointer; }",
+    "expect": []
+  },
+  {
+    "name": "L08 grab without grabbing adds an :active rule",
+    "input": ".map { cursor: grab; }",
+    "expect": [
+      "L08"
+    ],
+    "fixed": ".map { cursor: grab; }\n.map:active { cursor: grabbing; }"
+  },
+  {
+    "name": "L08 is satisfied by .is-dragging",
+    "input": ".card { cursor: grab; } .card.is-dragging { cursor: grabbing; }",
+    "expect": []
+  },
+  {
+    "name": "L08 is satisfied by [aria-grabbed=\"true\"]",
+    "input": ".item { cursor: grab; }\n.item[aria-grabbed=\"true\"] { cursor: grabbing; }",
+    "expect": []
+  },
+  {
+    "name": "L08 keeps the indentation inside @media",
+    "input": "@media (hover: hover) {\n  .strip { cursor: grab; }\n}",
+    "expect": [
+      "L08"
+    ],
+    "fixed": "@media (hover: hover) {\n  .strip { cursor: grab; }\n  .strip:active { cursor: grabbing; }\n}"
+  },
+  {
+    "name": "L09 div with onclick",
+    "input": "<div onclick=\"go()\">Go</div>",
+    "expect": [
+      "L09"
+    ],
+    "fixed": "<div role=\"button\" tabindex=\"0\" style=\"cursor:pointer\" onclick=\"go()\">Go</div>"
+  },
+  {
+    "name": "L09 span with @click keeps its cursor class",
+    "input": "<span @click=\"open\" class=\"cursor-pointer\">Open</span>",
+    "expect": [
+      "L09"
+    ],
+    "fixed": "<span role=\"button\" tabindex=\"0\" @click=\"open\" class=\"cursor-pointer\">Open</span>"
+  },
+  {
+    "name": "L09 v-on:click with an existing style",
+    "input": "<div v-on:click=\"x\" style=\"color: red\">X</div>",
+    "expect": [
+      "L09"
+    ],
+    "fixed": "<div role=\"button\" tabindex=\"0\" v-on:click=\"x\" style=\"cursor:pointer; color: red\">X</div>"
+  },
+  {
+    "name": "L09 keeps an existing tabindex",
+    "input": "<div onclick=\"go()\" tabindex=\"0\">Go</div>",
+    "expect": [
+      "L09"
+    ],
+    "fixed": "<div role=\"button\" style=\"cursor:pointer\" onclick=\"go()\" tabindex=\"0\">Go</div>"
+  },
+  {
+    "name": "L09 does not fire with a role",
+    "input": "<div role=\"button\" tabindex=\"0\" onclick=\"go()\">Go</div>",
+    "expect": []
+  },
+  {
+    "name": "L09 does not fire on buttons",
+    "input": "<button onclick=\"go()\">Go</button>",
+    "expect": []
+  },
+  {
+    "name": "L10 cursor: none",
+    "input": ".game { cursor: none; }",
+    "expect": [
+      "L10"
+    ],
+    "fixed": ".game { cursor: none; }"
+  },
+  {
+    "name": "L10 does not fire on none as the fallback after url()",
+    "input": ".a { cursor: url(pen.svg) 2 30, none; }",
+    "expect": []
+  },
+  {
+    "name": "L11 first declaration is always overridden",
+    "input": ".a { cursor: default; cursor: pointer; }",
+    "expect": [
+      "L11"
+    ],
+    "fixed": ".a { cursor: pointer; }"
+  },
+  {
+    "name": "L11 multi-line rule drops the whole line",
+    "input": ".a {\n  cursor: default;\n  cursor: pointer;\n}",
+    "expect": [
+      "L11"
+    ],
+    "fixed": ".a {\n  cursor: pointer;\n}"
+  },
+  {
+    "name": "L11 keyword before url() is a fallback",
+    "input": ".a { cursor: pointer; cursor: url(a.svg) 4 4, pointer; }",
+    "expect": []
+  },
+  {
+    "name": "L11 !important first is not overridden",
+    "input": ".a { cursor: move !important; cursor: pointer; }",
+    "expect": []
+  },
+  {
+    "name": "!important alone is fine",
+    "input": ".a { cursor: pointer !important; } .b:disabled { cursor: not-allowed !important; }",
+    "expect": []
+  },
+  {
+    "name": "L12 url() without a hotspot",
+    "input": ".a { cursor: url(pen.svg), auto; }",
+    "expect": [
+      "L12"
+    ]
+  },
+  {
+    "name": "L12 does not fire when the hotspot is set",
+    "input": ".a { cursor: url(pen.svg) 2 30, auto; }",
+    "expect": []
+  },
+  {
+    "name": "cursor inside a comment is ignored",
+    "input": "/* .a { cursor: hand; } */\n.b { cursor: pointer; }",
+    "expect": []
+  },
+  {
+    "name": "cursor inside a string is ignored",
+    "input": ".a::after { content: \"cursor: hand\"; }",
+    "expect": []
+  },
+  {
+    "name": "minified one-line CSS",
+    "input": ".a{cursor:hand}.b:disabled{cursor:pointer}.c{cursor:url(x.png)}",
+    "expect": [
+      "L02",
+      "L04",
+      "L06",
+      "L12"
+    ],
+    "fixed": ".a{cursor:pointer}.b:disabled{cursor:not-allowed}.c{cursor:url(x.png), auto}"
+  },
+  {
+    "name": "nested @media and @supports",
+    "input": "@media (hover: hover) {\n  @supports (cursor: grab) {\n    .x { cursor: hand; }\n  }\n}",
+    "expect": [
+      "L02"
+    ],
+    "fixed": "@media (hover: hover) {\n  @supports (cursor: grab) {\n    .x { cursor: pointer; }\n  }\n}"
+  },
+  {
+    "name": "<style> blocks in HTML are checked as CSS",
+    "input": "<style>\n  .a { cursor: crosshar; }\n</style>\n<p>Hi</p>",
+    "expect": [
+      "L01"
+    ],
+    "fixed": "<style>\n  .a { cursor: crosshair; }\n</style>\n<p>Hi</p>"
+  },
+  {
+    "name": "empty input",
+    "input": "",
+    "expect": []
+  },
+  {
+    "name": "broken CSS never throws",
+    "input": ".a { cursor: ; } .b { cursor pointer }\n.c { color: red; cursor: hand",
+    "expect": [
+      "L02"
+    ]
+  },
+  {
+    "name": "SCSS gets a note and no false alarms",
+    "input": "$c: pointer;\n.btn {\n  &:hover { cursor: $c; }\n}",
+    "expect": [],
+    "note": "SCSS"
+  },
+  {
+    "name": "Less gets a note",
+    "input": "@c: pointer;\n.btn { cursor: @c; }",
+    "expect": [],
+    "note": "Less"
+  },
+  {
+    "name": "JSX gets a note and is not checked as HTML",
+    "input": "<div style={{ cursor: 'pointer' }} onClick={go}>Go</div>",
+    "expect": [],
+    "note": "JSX"
+  }
+]
