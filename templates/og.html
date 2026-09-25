@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:"Instrument Sans";src:url({{fontSans}}) format("truetype");font-weight:100 900;font-stretch:75% 100%}
+@font-face{font-family:"JetBrains Mono";src:url({{fontMono}}) format("truetype");font-weight:100 800}
+/* Always the light theme: preview images don't follow the viewer's theme. */
+:root{--ink:#0E121B;--muted:#525866;--line:#E1E4EA;--stage:#F5F7FA;--accent:#335CFF}
+*{box-sizing:border-box;margin:0}
+html,body{width:1200px;height:630px;overflow:hidden;background:#FFFFFF}
+body{display:grid;grid-template-columns:minmax(0,1fr) 500px;font-family:"Instrument Sans",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.l{display:flex;flex-direction:column;padding:60px 0 58px 72px;min-width:0}
+.brand{display:flex;align-items:center;gap:12px;font-size:34px;font-weight:650;letter-spacing:-.01em}
+.brand svg{width:40px;height:40px}
+.mid{margin:auto 0}
+#name{width:max-content;font-size:140px;font-weight:700;line-height:1.02;letter-spacing:-.045em;white-space:nowrap}
+#chip{display:inline-block;margin-top:30px;padding:12px 20px;border:2px solid var(--line);border-radius:14px;background:var(--stage);font:500 30px/1.25 "JetBrains Mono",monospace;white-space:nowrap}
+.url{font-size:26px;font-weight:500;color:var(--muted)}
+.r{display:flex;padding:60px 64px 60px 44px}
+.panel{flex:1;display:grid;place-items:center;border:2px solid var(--line);border-radius:32px;background:var(--stage)}
+.panel svg{width:340px;height:204px;color:var(--accent);stroke-width:1.1}
+</style>
+</head>
+<body>
+  <div class="l">
+    <div class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.5 19.5 11l-6.6 1.9L9.6 20z" fill="#335CFF" stroke="#0E121B" stroke-width="1.6" stroke-linejoin="round"/></svg>Cursory</div>
+    <div class="mid"><div id="name">{{name}}</div><div id="chip">{{chip}}</div></div>
+    <div class="url">aowshad.github.io/cursory</div>
+  </div>
+  <div class="r"><div class="panel">{{art}}</div></div>
+<script>
+// Shrink the name from 140 px, and the chip from 30 px, until both fit the 620 px text column.
+window.fit = () => {
+  const n = document.getElementById('name'), c = document.getElementById('chip'), MAX = 620;
+  let s = 140; while (n.scrollWidth > MAX && s > 48) { s -= 2; n.style.fontSize = s + 'px' }
+  let t = 30; while (c.offsetWidth > MAX && t > 16) { t -= 1; c.style.fontSize = t + 'px' }
+  return { name: n.scrollWidth, chip: c.offsetWidth, nameSize: s, chipSize: t, max: MAX };
+};
+</script>
+</body>
+</html>

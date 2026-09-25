@@ -6,6 +6,7 @@ import { createServer } from 'node:http';
 import { extname, join, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
+import { renderOg } from './og.mjs';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -70,7 +71,7 @@ function render(tpl, vars, name) {
   return tpl.replace(/\{\{(\w+)\}\}/g, (m, k) => k in vars ? vars[k] : fail(`${name}: no value for {{${k}}}`));
 }
 
-export function build() {
+export async function build() {
   const t0 = Date.now();
   rmSync(DIST, { recursive: true, force: true });
   mkdirSync(DIST, { recursive: true });
@@ -86,6 +87,20 @@ export function build() {
   const index = read('index.html');
   if (!index.includes(DATA_TAG)) fail(`index.html: missing ${DATA_TAG}`);
   writeFileSync(join(DIST, 'index.html'), index.replace(DATA_TAG, `<script type="application/json" id="cursory-data">${json(data)}</script>`));
+
+  // 3. Share images, before the pages that point to them.
+  const LINT_ART = '<svg viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><rect x="4" y="2" width="32" height="20" rx="2.5" stroke-opacity=".55"/><path d="M8 7h14M8 12h18M8 17h11" stroke-opacity=".55"/><circle cx="31" cy="12" r="1.6" fill="currentColor" stroke="none"/><path d="M27 17l1.6 1.6L32 15.2" stroke-width="1.6"/></svg>';
+  const og = await renderOg([
+    ...data.cursors.map(c => ({ slug: c.slug, name: c.key, chip: `cursor: ${c.css};`, art: demos.mini(c.key) })),
+    { slug: 'studio', name: 'Cursor Studio', chip: 'cursor: url("brush.svg") 4 28, auto;', art: demos.mini('url()') },
+    { slug: 'lint', name: 'Cursor Lint', chip: 'cursor: hand; → cursor: pointer;', art: LINT_ART }
+  ], join(DIST, 'og'));
+  // The tool pages keep og.png in their source; the build points them at their own images.
+  for (const [file, slug] of [['builder.html', 'studio'], ['lint.html', 'lint']]) {
+    const f = join(DIST, file), html = readFileSync(f, 'utf8'), n = html.split(`${SITE}og.png`).length - 1;
+    if (!n) fail(`${file}: no og.png image tags to update`);
+    writeFileSync(f, html.split(`${SITE}og.png`).join(`${SITE}og/${slug}.png`));
+  }
 
   const parts = shared(index), today = new Date().toISOString().slice(0, 10);
   const INFO = (read('assets/site.js').match(/^const INFO='([^']*)';$/m) || fail('assets/site.js: INFO icon not found'))[1];
@@ -108,7 +123,7 @@ export function build() {
         { '@type': 'ListItem', position: 3, name: c.key, item: url }] }
     ];
     const html = render(tpl, {
-      title: esc(`cursor: ${c.key} — CSS cursor with live demo | Cursory`), ogTitle: esc(`cursor: ${c.key} — CSS cursor with live demo`),
+      title: esc(`cursor: ${c.key} — CSS cursor with live demo | Cursory`), ogTitle: esc(`cursor: ${c.key} — CSS cursor with live demo`), ogAlt: esc(`cursor: ${c.key} with an illustration of its demo, on Cursory`),
       description: esc(c.description), canonical: url, ogImage: og, jsonLd: json(ld), root,
       headCommon: parts.head, header: rebase(parts.header, root), footer: rebase(parts.footer, root),
       group: group.id, groupTitle: esc(group.title), name: esc(c.key), line: esc(c.line), cssAttr: esc(c.css),
@@ -128,7 +143,7 @@ export function build() {
     writeFileSync(join(DIST, 'cursor', c.slug, 'index.html'), html);
   });
 
-  // 3, 5. Share images and the Bangla version plug in here (steps 2.2 and 2.4).
+  // 5. The Bangla version plugs in here (step 2.4).
 
   // 4. 404 page (served at any depth, so its links use the site's absolute base), sitemap and robots.txt.
   const tiles = list.map(c => `<a class="ctile" href="${BASE}cursor/${c.slug}/" data-search="${esc((c.key + ' ' + c.line).toLowerCase())}" style="cursor:${esc(c.key === 'url()' ? `url("${demos.brushURL}") 4 28, crosshair` : c.css)}"><span class="nm">${esc(c.key)}</span>${demos.mini(c.key)}<span class="tsnip"><code>cursor: ${esc(c.css)};</code></span></a>`).join('');
@@ -145,7 +160,7 @@ ${urls.map(u => `  <url><loc>${SITE}${u}</loc><lastmod>${today}</lastmod></url>`
 `);
   writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`);
 
-  console.log(`Built dist/ in ${Date.now() - t0} ms: ${list.length} value pages, ${data.groups.length} groups, 404 page, sitemap with ${urls.length} URLs.`);
+  console.log(`Built dist/ in ${Date.now() - t0} ms: ${list.length} value pages, ${og.rendered + og.reused} share images (${og.rendered} rendered, ${og.reused} cached), 404 page, sitemap with ${urls.length} URLs.`);
 }
 
 const TYPES = {
@@ -177,6 +192,5 @@ export function serve(port = 8000) {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  build();
-  if (process.argv.includes('--serve')) serve();
+  build().then(() => { if (process.argv.includes('--serve')) serve() }, err => { console.error(err.message || err); process.exit(1) });
 }

@@ -26,6 +26,12 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm test
+      - name: Restore cached share images
+        uses: actions/cache@v4
+        with:
+          path: .cache/og
+          key: og-${{ hashFiles('templates/og.html', 'scripts/og.mjs', 'scripts/fonts/**', 'data/cursors.json', 'assets/demos.js') }}
+          restore-keys: og-
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

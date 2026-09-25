@@ -28,7 +28,7 @@ npm run dev
 # open http://localhost:8000
 ```
 
-`npm run build` writes the site to `dist/` without serving it. The unbuilt source also works from any static server, because `index.html` reads `data/` directly when the data isn't inlined.
+`npm run build` writes the site to `dist/` without serving it. Share images need Chromium for Playwright once: `npx playwright install chromium`. The unbuilt source also works from any static server, because `index.html` reads `data/` directly when the data isn't inlined.
 
 ## Test
 
@@ -61,6 +61,9 @@ To use a custom domain instead, replace `https://aowshad.github.io/cursory/` in 
 | `assets/zoom.webp` | Photo used in the `zoom-in` and `zoom-out` demos |
 | `templates/value.html` | Template for the value pages at `/cursor/<slug>/` |
 | `templates/404.html` | The not-found page, with search and every value |
+| `templates/og.html` | The 1200 × 630 share image for each value and tool |
+| `scripts/og.mjs` | Renders the share images with Playwright into `dist/og/`, cached in `.cache/og/` |
+| `scripts/fonts/` | Instrument Sans and JetBrains Mono (SIL Open Font License) for the share images |
 | `scripts/build.mjs` | Builds `dist/`: inlines the data, generates the value pages and 404, writes the sitemap and robots.txt. `--serve` serves it |
 | `docs/content-review.md` | The value pages' text in one table, for review |
 | `tests/` | Regression cases for the rule engine (`lint-cases.json`) and the runner |
