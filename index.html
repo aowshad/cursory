@@ -145,6 +145,50 @@ main{padding-bottom:40px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:60;max-width:calc(100% - 32px);transform:translate(-50%,8px);padding:9px 14px;border-radius:10px;background:var(--ink);color:var(--bg);font:500 .88rem/1.4 var(--sans);box-shadow:var(--shadow-md);text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast code{font-size:.84rem;overflow-wrap:anywhere}
+.fmt .seg+.fmt-l{margin-left:8px}
+.vseg svg{width:14px;height:14px}
+@media (max-width:520px){.vt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.fmt .vseg{flex:none}.vseg button{padding:6px 12px}}
+
+/* compact view */
+.tiles{display:none;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.compact .grid{display:none}
+.compact .tiles{display:grid}
+.compact .group{padding-top:32px}
+.compact .group-head{margin-bottom:12px;gap:4px 16px}
+.compact .group-head h2{font-size:1.25rem;letter-spacing:-.015em}
+.compact .group-head p{margin-top:2px;font-size:.88rem}
+@media (max-width:520px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ctile{position:relative;display:grid;grid-template-rows:auto 24px auto;gap:4px;align-content:start;min-height:84px;padding:8px 12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-xs);transition:border-color .15s}
+.ctile:hover{border-color:var(--soft)}
+.tile-open{min-width:0;margin:0;padding:0 30px 0 0;border:0;background:none;text-align:left;font:600 .92rem/1.3 var(--sans);color:var(--ink);cursor:inherit;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile-open::after{content:"";position:absolute;inset:0;border-radius:12px}
+.tile-open:focus-visible{outline:none}
+.tile-open:focus-visible::after{outline:2px solid var(--accent);outline-offset:2px}
+.ctile .mini{width:40px;height:24px;color:var(--soft)}
+.tsnip{min-width:0;border-radius:4px;color:var(--muted);transition:box-shadow .2s}
+.tsnip code{display:block;font-size:.72rem;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tsnip.flash{box-shadow:0 0 0 2px var(--accent)}
+.tcopy{position:absolute;top:6px;right:6px;z-index:1;width:28px;height:28px;display:grid;place-items:center;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);box-shadow:var(--shadow-xs);cursor:pointer;opacity:0;transition:opacity .15s,background .15s}
+.tcopy svg{width:13px;height:13px}
+.tcopy:hover{background:var(--stage)}
+.ctile:hover .tcopy,.ctile:focus-within .tcopy,.tcopy.done{opacity:1}
+.tcopy.done{color:var(--ok)}
+@media (hover:none){.tcopy{opacity:1;top:4px;right:4px;width:32px;height:32px}}
+
+/* detail sheet */
+.dlg-scrim{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:16px;background:color-mix(in srgb,var(--stage) 72%,transparent);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.dlg-scrim.open{display:flex}
+.dlg{width:100%;max-width:460px;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow:auto;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-md)}
+.dlg-bar{display:flex;justify-content:flex-end}
+.dlg-x{width:32px;height:32px;display:grid;place-items:center;padding:0;border:0;border-radius:9px;background:transparent;color:var(--muted);cursor:pointer}
+.dlg-x:hover{background:var(--stage);color:var(--ink)}
+.dlg-x svg{width:18px;height:18px}
+.dlg .card{padding:0 10px 10px;border:0;box-shadow:none}
+.dlg-lock{overflow:hidden}
+.sys-more{display:none;margin-bottom:12px}
+.compact .sys-more{display:inline-flex}
+.compact #systable:not(.open){display:none}
+@media (max-width:520px){.dlg-scrim{align-items:flex-end;padding:0}.dlg{max-width:none;max-height:92vh;max-height:92dvh;border-bottom:0;border-radius:18px 18px 0 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}}
 .snip code{font-size:.82rem;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
 .snip code::-webkit-scrollbar{display:none}
 .copy{flex:none;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:5px 10px;font-size:.8rem;font-weight:600;cursor:pointer;box-shadow:var(--shadow-xs);transition:background .15s,color .15s}
@@ -454,6 +498,11 @@ footer{border-top:1px solid var(--line);margin-top:96px;background:var(--stage)}
   <div class="wrap">
     <div class="chips" id="chips"></div>
     <div class="fmt">
+      <span class="fmt-l" id="view-l">View</span>
+      <div class="seg vseg" id="view" role="radiogroup" aria-labelledby="view-l">
+        <button type="button" role="radio" aria-checked="true" data-view="cards"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1.2"/><rect x="9" y="2" width="5" height="5" rx="1.2"/><rect x="2" y="9" width="5" height="5" rx="1.2"/><rect x="9" y="9" width="5" height="5" rx="1.2"/></svg><span class="vt">Cards</span></button>
+        <button type="button" role="radio" aria-checked="false" data-view="compact"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="3" cy="3" r="1.5"/><circle cx="8" cy="3" r="1.5"/><circle cx="13" cy="3" r="1.5"/><circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/><circle cx="3" cy="13" r="1.5"/><circle cx="8" cy="13" r="1.5"/><circle cx="13" cy="13" r="1.5"/></svg><span class="vt">Compact</span></button>
+      </div>
       <span class="fmt-l" id="fmt-l">Copy as</span>
       <div class="seg" id="fmt" role="radiogroup" aria-labelledby="fmt-l">
         <button type="button" role="radio" aria-checked="true" data-f="css">CSS</button>
@@ -471,6 +520,7 @@ footer{border-top:1px solid var(--line);margin-top:96px;background:var(--stage)}
 
 <main class="wrap" id="main"></main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="dlg-scrim" id="dlg-scrim"><div class="dlg" id="dlg" role="dialog" aria-modal="true"><div class="dlg-bar"><button class="dlg-x" type="button" id="dlg-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div id="dlg-body"></div></div></div>
 <div class="wrap"><p class="empty" id="empty"></p></div>
 <div class="wrap" id="extras">
   <section class="extra" id="studio">
@@ -511,6 +561,7 @@ footer{border-top:1px solid var(--line);margin-top:96px;background:var(--stage)}
   <section class="extra" id="systems">
     <div class="group-head"><div><h2>Across systems</h2><p>The same CSS can draw a different cursor on each operating system and browser. Hover any value to see what your setup draws.</p></div></div>
     <div class="sys-note"><span class="badge"><i></i><span id="sysname">Detecting your system</span></span></div>
+    <button class="btn ghost sys-more" type="button" id="sys-more" aria-expanded="false" aria-controls="systable">Show platform notes</button>
     <div class="sys-table" id="systable">
       <div class="sys-row head"><span>Values</span><span>What changes between systems</span></div>
     </div>
@@ -748,7 +799,7 @@ const C=[
 C.forEach(c=>{if(c.z===undefined)return;
   c.html=`<div class="zoomer${c.z?' z':''}"><img class="fabric" src="assets/zoom.webp" alt="Aerial view of a dense settlement of tin-roofed shelters and trees stretching to the horizon under a cloudy sky" draggable="false"></div><span class="hint">Click the photo</span>`;
   c.init=s=>{const z=$('.zoomer',s),f=$('.fabric',s);const apply=(on,x,y)=>{z.classList.toggle('z',on);f.style.transformOrigin=`${x}px ${y}px`;f.style.transform=on?'scale(2.6)':'none'};
-    if(c.z)requestAnimationFrame(()=>apply(true,z.clientWidth/2,z.clientHeight/2));
+    if(c.z){z.classList.add('z');f.style.transformOrigin='50% 50%';f.style.transform='scale(2.6)'}
     z.addEventListener('click',e=>{const r=z.getBoundingClientRect();const on=!z.classList.contains('z');apply(on,e.clientX-r.left,e.clientY-r.top)})}});
 
 /* ---------- render ---------- */
@@ -757,23 +808,59 @@ const INFO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
 const LINE={"auto": "Lets the browser choose. Use it to undo an override.", "default": "The plain arrow, for app chrome like toolbars and menus.", "none": "Hides the cursor. Always draw your own replacement.", "context-menu": "More actions are available on right-click.", "help": "Help is available, usually as a tooltip.", "pointer": "For links, buttons, and anything clickable.", "progress": "Busy in the background, but still usable.", "wait": "Busy and blocking input. Pair it with a spinner.", "cell": "Selects a cell or a range in a grid.", "crosshair": "Precise selection for cropping, screenshots, and charts.", "text": "Text can be selected or edited. Set it on the whole box.", "vertical-text": "Selectable text in a vertical writing mode.", "alias": "Creates a shortcut instead of moving the item.", "copy": "Something will be copied, by click or by drag.", "move": "Moves an object freely on a canvas.", "no-drop": "The dragged item can’t be dropped here.", "not-allowed": "The action is unavailable. Always explain why nearby.", "grab": "Can be grabbed and dragged, before the button is pressed.", "grabbing": "Being held. Show it while a drag is in progress.", "n-resize": "The edge moves up only, like a bottom sheet.", "s-resize": "The edge moves down only, like an expanding field.", "e-resize": "The edge moves right only, like a left sidebar.", "w-resize": "The edge moves left only, like a right-hand inspector.", "ne-resize": "The corner moves up and right, for panels docked bottom-left.", "nw-resize": "The corner moves up and left, for chat widgets docked bottom-right.", "se-resize": "The corner moves down and right, for notes pinned top-left.", "sw-resize": "The corner moves down and left, for menus anchored top-right.", "ew-resize": "Resizes left and right, for sliders and vertical dividers.", "ns-resize": "Resizes up and down, for bottom panels and consoles.", "nesw-resize": "Diagonal resize for the top-right and bottom-left corners.", "nwse-resize": "Diagonal resize for the top-left and bottom-right corners.", "col-resize": "For column dividers in tables and grids.", "row-resize": "For dividers between stacked panes.", "all-scroll": "Pans in any direction, like a map.", "zoom-in": "Magnifies an image or product photo on click.", "zoom-out": "The zoomed state. Click to return to normal size.", "url()": "Your own image. Keep it 32 × 32 px with a keyword fallback."};
 C.forEach(c=>{if(LINE[c.k])c.d=LINE[c.k]});
 const main=$('#main'),chips=$('#chips');
+const CHECKI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+// Tiny decorative previews for compact tiles, drawn in --soft.
+function mini(k){
+  const arrow='<path d="M15 3v15l3.8-3.6 2.6 5.6 2.4-1.1-2.6-5.5H27z" stroke-linejoin="round"/>';
+  const box='<rect x="11" y="5" width="18" height="14" rx="2" stroke-opacity=".55"/>';
+  const edge={n:'<path d="M16 5h8" stroke-width="2.6"/>',s:'<path d="M16 19h8" stroke-width="2.6"/>',e:'<path d="M29 9v6" stroke-width="2.6"/>',w:'<path d="M11 9v6" stroke-width="2.6"/>',
+    ne:'<circle cx="29" cy="5" r="2.2" fill="currentColor"/>',nw:'<circle cx="11" cy="5" r="2.2" fill="currentColor"/>',se:'<circle cx="29" cy="19" r="2.2" fill="currentColor"/>',sw:'<circle cx="11" cy="19" r="2.2" fill="currentColor"/>'};
+  const four='<path d="M20 3v18M11 12h18M17.5 5.5 20 3l2.5 2.5M17.5 18.5 20 21l2.5-2.5M13.5 9.5 11 12l2.5 2.5M26.5 9.5 29 12l-2.5 2.5"/>';
+  const ban='<circle cx="20" cy="12" r="7.5"/><path d="M14.7 17.3 25.3 6.7"/>';
+  const spin='<circle cx="20" cy="12" r="7" stroke-opacity=".35"/><path d="M20 5a7 7 0 0 1 7 7"/>';
+  const photos=d=>`<rect x="5" y="${6-d}" width="14" height="12" rx="2"/><rect x="21" y="6" width="14" height="12" rx="2"/><path d="M8 ${15-d}l3-3 3 3M24 15l3-3 3 3"/>`;
+  const zoom=p=>`<circle cx="18" cy="11" r="6"/><path d="M22.5 15.5 27 20M15.5 11h5${p?'M18 8.5v5':''}"/>`;
+  const one={
+    auto:'<g transform="translate(-6 0)">'+arrow+'</g><path d="M27 7h4M27 17h4M29 7v10"/>',default:arrow,none:'<g stroke-dasharray="2 2">'+arrow+'</g>',
+    'context-menu':'<rect x="13" y="4" width="15" height="16" rx="2"/><path d="M16 9h9M16 12h9M16 15h6"/>',
+    help:'<circle cx="20" cy="12" r="8"/><path d="M17.8 10a2.3 2.3 0 1 1 3 2.2c-.6.3-.8.7-.8 1.3"/><circle cx="20" cy="16.4" r=".7" fill="currentColor"/>',
+    pointer:'<rect x="8" y="6" width="24" height="12" rx="6"/>',progress:spin,wait:spin,
+    cell:'<rect x="10" y="4" width="20" height="16" rx="1.5"/><path d="M10 9.3h20M10 14.6h20M16.7 4v16M23.3 4v16"/>',
+    crosshair:'<path d="M20 3v18M11 12h18"/><circle cx="20" cy="12" r="4"/>',
+    text:'<path d="M17 4h6M17 20h6M20 4v16"/>','vertical-text':'<path d="M12 9v6M28 9v6M12 12h16"/>',
+    alias:'<rect x="9" y="6" width="12" height="12" rx="2"/><path d="M24 17c0-5 3-8 7-8M28 6l3 3-3 3"/>',
+    copy:'<rect x="12" y="8" width="11" height="11" rx="2"/><path d="M17 5h9a2 2 0 0 1 2 2v9"/>',
+    move:four,'all-scroll':four,'no-drop':ban,'not-allowed':ban,grab:photos(0),grabbing:photos(3),
+    'col-resize':'<rect x="8" y="5" width="24" height="14" rx="2" stroke-opacity=".55"/><path d="M20 5v14" stroke-width="2.4"/>',
+    'row-resize':'<rect x="10" y="3" width="20" height="18" rx="2" stroke-opacity=".55"/><path d="M10 12h20" stroke-width="2.4"/>',
+    'zoom-in':zoom(true),'zoom-out':zoom(false),
+    'url()':'<path d="M15 17 25 7a1.8 1.8 0 0 1 2.5 2.5L17.5 19.5z" stroke-linejoin="round"/><path d="M11 21c.3-2.2 1.5-3.6 3.2-3.6"/>'
+  };
+  let d=one[k];
+  if(!d){const m=k.match(/^(n|e|s|w|ne|nw|se|sw|ew|ns|nesw|nwse)-resize$/);if(m){const p={ew:['e','w'],ns:['n','s'],nesw:['ne','sw'],nwse:['nw','se']}[m[1]]||[m[1]];d=box+p.map(x=>edge[x]).join('')}}
+  return `<svg class="mini" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">${d||arrow}</svg>`;
+}
 const slug=k=>k.replace(/[()]/g,'');
 G.forEach(g=>{
   const items=C.filter(c=>c.g===g.id);
   chips.insertAdjacentHTML('beforeend',`<a class="chip" href="#${g.id}">${g.t}<small>${items.length}</small></a>`);
   const sec=document.createElement('section');sec.className='group';sec.id=g.id;
-  sec.innerHTML=`<div class="group-head"><div><h2>${g.t}</h2><p>${g.p}</p></div><span class="count">${items.length} ${items.length===1?'value':'values'}</span></div><div class="grid"></div>`;
-  const grid=$('.grid',sec);
+  sec.innerHTML=`<div class="group-head"><div><h2>${g.t}</h2><p>${g.p}</p></div><span class="count">${items.length} ${items.length===1?'value':'values'}</span></div><div class="grid"></div><div class="tiles"></div>`;
+  const grid=$('.grid',sec),tiles=$('.tiles',sec);
   items.forEach(c=>{
     const v=c.v||c.k;
     const a=document.createElement('article');a.className='card';a.id=slug(c.k);
     a.dataset.search=(c.k+' '+c.d+' '+c.u+' '+g.t).toLowerCase();
     const hint=HINTS[c.k]||'';const html=(c.html||'').replace(/<span class="hint"[^>]*>[\s\S]*?<\/span>/g,'');
-    a.innerHTML=`<div class="card-h"><h3><a href="#${slug(c.k)}">${c.k}</a></h3>${hint?`<button class="info" type="button" aria-label="How to try it: ${hint}">${INFO}<span class="tipx" aria-hidden="true">${hint}</span></button>`:''}</div><p class="desc">${c.d}</p>
+    a.innerHTML=`<div class="card-h"><h3 id="t-${slug(c.k)}"><a href="#${slug(c.k)}">${c.k}</a></h3>${hint?`<button class="info" type="button" aria-label="How to try it: ${hint}">${INFO}<span class="tipx" aria-hidden="true">${hint}</span></button>`:''}</div><p class="desc">${c.d}</p>
       <div class="stage${c.drag?' drag':''}">${html}</div>
       <div class="snip" data-v="${v.replace(/"/g,'&quot;')}"><code></code><button class="copy" type="button">${COPYI}<span>Copy</span></button></div>`;
     grid.appendChild(a);
     c._stage=$('.stage',a);
+    const t=document.createElement('div');t.className='ctile';t.dataset.search=a.dataset.search;
+    t.style.cursor=c.k==='url()'?`url("${brushURL}") 4 28, crosshair`:v;
+    t.innerHTML=`<button class="tile-open" type="button" aria-haspopup="dialog">${c.k}</button>${mini(c.k)}<div class="tsnip" data-v="${v.replace(/"/g,'&quot;')}"><code></code></div><button class="tcopy" type="button" aria-label="Copy ${c.k}">${COPYI}</button>`;
+    tiles.appendChild(t);a._tile=t;t._card=a;
   });
   main.appendChild(sec);
 });
@@ -808,7 +895,7 @@ const toastEl=$('#toast');let toastT;
 function toast(text,code){toastEl.textContent=text;if(code){const c=document.createElement('code');c.textContent=code;toastEl.append(' ',c)}
   toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('show'),1800)}
 function renderSnips(flash){
-  $$('.snip[data-v]').forEach(s=>{$('code',s).textContent=formatSnippet(s.dataset.v,fmt);if(flash){clearTimeout(s._ft);s.classList.remove('flash');void s.offsetWidth;s.classList.add('flash');s._ft=setTimeout(()=>s.classList.remove('flash'),400)}});
+  $$('.snip[data-v],.tsnip[data-v]').forEach(s=>{$('code',s).textContent=formatSnippet(s.dataset.v,fmt);if(flash){clearTimeout(s._ft);s.classList.remove('flash');void s.offsetWidth;s.classList.add('flash');s._ft=setTimeout(()=>s.classList.remove('flash'),400)}});
   $$('#fmt button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
 }
 function setFmt(f,announce){if(!(f in FMTS)||f===fmt)return;fmt=f;store.set('cursory-fmt',f);renderSnips(true);if(announce)toast(`Copy buttons now give ${FMTS[f]}`)}
@@ -816,15 +903,58 @@ renderSnips(false);
 $$('#fmt button').forEach(b=>{b.tabIndex=b.dataset.f===fmt?0:-1;b.addEventListener('click',()=>{setFmt(b.dataset.f,true);$$('#fmt button').forEach(x=>x.tabIndex=x===b?0:-1)})});
 $('#fmt').addEventListener('keydown',e=>{const k=['css','tw','jsx'],d={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];if(!d)return;e.preventDefault();
   const n=k[(k.indexOf(fmt)+d+k.length)%k.length];setFmt(n,true);$$('#fmt button').forEach(x=>x.tabIndex=x.dataset.f===n?0:-1);$(`#fmt [data-f="${n}"]`).focus()});
-document.addEventListener('click',e=>{const b=e.target.closest('.copy');if(!b)return;const s=b.closest('.snip[data-v]');const text=s?formatSnippet(s.dataset.v,fmt):b.dataset.copy;if(!text)return;
-  copyText(text).then(()=>{const t=b.querySelector('span');t.textContent='Copied';b.classList.add('done');clearTimeout(b._t);b._t=setTimeout(()=>{t.textContent='Copy';b.classList.remove('done')},1200);toast('Copied',text)})});
+document.addEventListener('click',e=>{const b=e.target.closest('.copy,.tcopy');if(!b)return;const tile=b.classList.contains('tcopy');
+  const s=tile?$('.tsnip',b.closest('.ctile')):b.closest('.snip[data-v]');const text=s?formatSnippet(s.dataset.v,fmt):b.dataset.copy;if(!text)return;
+  copyText(text).then(()=>{clearTimeout(b._t);b.classList.add('done');
+    if(tile){b.innerHTML=CHECKI;b._t=setTimeout(()=>{b.innerHTML=COPYI;b.classList.remove('done')},1200)}
+    else{const t=b.querySelector('span');t.textContent='Copied';b._t=setTimeout(()=>{t.textContent='Copy';b.classList.remove('done')},1200)}
+    toast('Copied',text)})});
+
+/* ---------- view: cards or compact ---------- */
+const VIEWS=['cards','compact'];
+let view=(()=>{const v=store.get('cursory-view');return VIEWS.includes(v)?v:(innerWidth<700?'compact':'cards')})();
+const viewCtl=()=>$$('#view button').forEach(b=>{const on=b.dataset.view===view;b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1});
+function setView(v,save){if(!VIEWS.includes(v))return;if(v!=='compact')closeSheet(false);view=v;root.classList.toggle('compact',v==='compact');viewCtl();if(save)store.set('cursory-view',v)}
+viewCtl();
+$$('#view button').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view,true)));
+$('#view').addEventListener('keydown',e=>{const d={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];if(!d)return;e.preventDefault();
+  const n=VIEWS[(VIEWS.indexOf(view)+d+VIEWS.length)%VIEWS.length];setView(n,true);$(`#view [data-view="${n}"]`).focus()});
+
+/* ---------- detail sheet: the real card moves in and back out ---------- */
+const scrim=$('#dlg-scrim'),dlg=$('#dlg'),dbody=$('#dlg-body');let sheet=null,downOnScrim=false;
+function openSheet(card,back){
+  if(sheet)closeSheet(false);
+  const ph=document.createElement('span');ph.hidden=true;card.before(ph);dbody.appendChild(card);
+  dlg.setAttribute('aria-labelledby','t-'+card.id);scrim.classList.add('open');root.classList.add('dlg-lock');
+  sheet={card,ph,back};history.replaceState(null,'','#'+card.id);$('#dlg-x').focus();
+}
+function closeSheet(restore=true){
+  if(!sheet)return;const{card,ph,back}=sheet;sheet=null;
+  ph.replaceWith(card);scrim.classList.remove('open');root.classList.remove('dlg-lock');
+  history.replaceState(null,'',location.pathname+location.search);if(restore&&back)back.focus();
+}
+document.addEventListener('click',e=>{const b=e.target.closest('.tile-open');if(b)openSheet(b.closest('.ctile')._card,b)});
+$('#dlg-x').addEventListener('click',()=>closeSheet());
+scrim.addEventListener('pointerdown',e=>{downOnScrim=e.target===scrim});
+scrim.addEventListener('click',e=>{if(e.target===scrim&&downOnScrim)closeSheet()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sheet){e.preventDefault();closeSheet()}});
+dlg.addEventListener('keydown',e=>{if(e.key!=='Tab')return;
+  const f=$$('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])',dlg).filter(x=>x.getClientRects().length);if(!f.length)return;
+  const first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}});
+function openFromHash(){if(view!=='compact')return;const id=decodeURIComponent(location.hash.slice(1));const card=id&&document.getElementById(id);
+  if(card&&card._tile){card._tile.scrollIntoView({block:'center'});openSheet(card,$('.tile-open',card._tile))}}
+window.addEventListener('hashchange',openFromHash);
+$('#sys-more').addEventListener('click',e=>{const o=$('#systable').classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',String(o));e.currentTarget.textContent=o?'Hide platform notes':'Show platform notes'});
+setView(view,false);
+if(view==='compact'){const g=location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1)));if(g&&g.classList.contains('group'))g.scrollIntoView()}
+openFromHash();
 
 /* ---------- search ---------- */
 const q=$('#q'),empty=$('#empty');
 q.placeholder=`Search ${C.length} values`;
 q.addEventListener('input',()=>{
   const t=q.value.trim().toLowerCase();let any=0;
-  $$('.group').forEach(g=>{let n=0;$$('.card',g).forEach(c=>{const m=!t||c.dataset.search.includes(t);c.style.display=m?'':'none';if(m)n++});g.style.display=n?'':'none';any+=n});
+  $$('.group').forEach(g=>{let n=0;$$('.card',g).forEach(c=>{const m=!t||c.dataset.search.includes(t);c.style.display=m?'':'none';if(c._tile)c._tile.style.display=m?'':'none';if(m)n++});g.style.display=n?'':'none';any+=n});
   empty.style.display=any?'none':'block';
   $('#extras').style.display=t?'none':'';
   empty.innerHTML=`No cursor matches <strong>“${q.value.replace(/</g,'&lt;')}”</strong>. Try drag, resize, or zoom.`;
