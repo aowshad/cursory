@@ -13,6 +13,7 @@ An interactive reference for the CSS `cursor` property. Each value runs inside a
 - **Cursor Lint** (`lint.html`). Paste CSS or HTML and get every cursor mistake explained: invalid values, `cursor: hand`, vendor prefixes, `url()` without a fallback, oversized hotspots, pointer on disabled controls, a global pointer, `grab` without `grabbing`, clickable `<div>`s and more. Most issues fix in one click and undo with Cmd/Ctrl+Z. You can copy a Markdown report or a share link, and your code never leaves the browser.
 - **Across systems.** Notes on how the same value renders differently on Windows, macOS, Linux and touch devices. It also detects the visitor's browser and OS.
 - **Light and dark themes.** Uses the visitor's system theme on the first visit and remembers their choice.
+- **A page per value.** Every value has its own page, like `/cursor/grab/`, with a larger live demo, copy-ready code, when to use it and when not to, common mistakes, platform notes and related values.
 - **Search and deep links.** Press `/` to search. Every card has its own URL, for example `/#grab`.
 
 The published site has no runtime dependencies. Card text lives once in `data/`, demos once in `assets/demos.js`, and a small Node build puts the pages together into `dist/`. Cursor Lint loads [css-tree](https://github.com/csstree/csstree) from a pinned jsDelivr build. Fonts load from Google Fonts: Instrument Sans for text, JetBrains Mono for CSS.
@@ -51,13 +52,17 @@ To use a custom domain instead, replace `https://aowshad.github.io/cursory/` in 
 | `builder.html` | Cursor Studio, the full-page editor |
 | `lint.html` | Cursor Lint, the CSS and HTML checker |
 | `lint-engine.js` | Cursor Lint's rule engine, shared by the page and the tests |
-| `data/cursors.json` | Every value's text: description, hint and search terms |
+| `data/cursors.json` | Every value's text: one-line and search descriptions, hint, use it for, avoid, common mistakes, platform note and related values |
+| `data/systems.json` | The Across systems table rows |
 | `data/groups.json` | Group ids, titles and descriptions |
 | `assets/demos.js` | Every demo's markup and behavior, plus the compact view's mini previews |
 | `assets/site.css` | Design tokens, components and demo styles for the main page |
 | `assets/site.js` | Shared helpers: theme, clipboard, copy formats and the toast |
 | `assets/zoom.webp` | Photo used in the `zoom-in` and `zoom-out` demos |
-| `scripts/build.mjs` | Builds `dist/`, inlines the data, writes the sitemap and robots.txt. `--serve` serves it |
+| `templates/value.html` | Template for the value pages at `/cursor/<slug>/` |
+| `templates/404.html` | The not-found page, with search and every value |
+| `scripts/build.mjs` | Builds `dist/`: inlines the data, generates the value pages and 404, writes the sitemap and robots.txt. `--serve` serves it |
+| `docs/content-review.md` | The value pages' text in one table, for review |
 | `tests/` | Regression cases for the rule engine (`lint-cases.json`) and the runner |
 | `og.png` | 1200 × 630 share image for LinkedIn, X and Slack |
 | `favicon.svg` | Standalone favicon (an inline copy is embedded in `index.html`) |

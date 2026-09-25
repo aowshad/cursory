@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta name="author" content="Al Aowshad Himel">
+<link rel="canonical" href="{{canonical}}">
+{{headCommon}}
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Cursory">
+<meta property="og:title" content="{{ogTitle}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:image" content="{{ogImage}}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@aowshadhimel">
+<meta name="twitter:title" content="{{ogTitle}}">
+<meta name="twitter:description" content="{{description}}">
+<meta name="twitter:image" content="{{ogImage}}">
+<script type="application/ld+json">{{jsonLd}}</script>
+<link rel="stylesheet" href="{{root}}assets/site.css">
+</head>
+<body class="vp">
+
+<div class="wrap">
+{{header}}
+
+  <main class="vp-main" id="top">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="{{root}}">Cursory</a></li>
+        <li><a href="{{root}}#{{group}}">{{groupTitle}}</a></li>
+        <li><a href="./" aria-current="page">{{name}}</a></li>
+      </ol>
+    </nav>
+
+    <h1 class="vp-h1"><span class="p">cursor:</span> {{name}}</h1>
+    <p class="vp-line">{{line}}</p>
+
+    <section class="vp-panel" aria-labelledby="demo-h">
+      <div class="card-h"><h2 id="demo-h">Live demo</h2>{{hintButton}}</div>
+      <div class="stage" id="demo"></div>
+      <div class="vp-copy">
+        <div class="seg" id="fmt" role="radiogroup" aria-label="Copy as">
+          <button type="button" role="radio" aria-checked="true" data-f="css">CSS</button>
+          <button type="button" role="radio" aria-checked="false" data-f="tw">Tailwind</button>
+          <button type="button" role="radio" aria-checked="false" data-f="jsx">JSX</button>
+        </div>
+        <div class="snip" data-v="{{cssAttr}}"><code></code><button class="copy" type="button"></button></div>
+      </div>
+    </section>
+
+    <div class="vp-sec vp-two">
+      <section class="vp-sec" aria-labelledby="use-h"><h2 id="use-h">Use it for</h2><ul class="vp-list">{{useFor}}</ul></section>
+      <section class="vp-sec" aria-labelledby="avoid-h"><h2 id="avoid-h">Avoid</h2><ul class="vp-list">{{avoid}}</ul></section>
+    </div>
+
+    <section class="vp-sec" aria-labelledby="mistakes-h">
+      <h2 id="mistakes-h">Common mistakes</h2>
+      <ul class="vp-list vp-mistakes">{{mistakes}}</ul>
+    </section>
+
+    <section class="vp-sec" aria-labelledby="systems-h">
+      <h2 id="systems-h">Across systems</h2>
+      <p class="vp-note">{{systems}}</p>
+    </section>
+
+    <section class="vp-sec" aria-labelledby="related-h">
+      <h2 id="related-h">Related values</h2>
+      <div class="vp-chips">{{related}}</div>
+    </section>
+{{studioCta}}
+    <nav class="vp-pager" aria-label="More values">{{pager}}</nav>
+  </main>
+</div>
+
+{{footer}}
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="application/json" id="cursory-page">{{pageJson}}</script>
+<script src="{{root}}assets/site.js"></script>
+<script src="{{root}}assets/demos.js"></script>
+<script>
+(function(){
+const P=JSON.parse($('#cursory-page').textContent);
+CursoryDemos.mount($('#demo'),P.key);
+fillFooter(P.groups,P.root);
+initCopy();
+})();
+</script>
+</body>
+</html>

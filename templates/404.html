@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Page not found | Cursory</title>
+<meta name="description" content="This page doesn’t exist. Search the CSS cursor values or pick one from the list.">
+<meta name="robots" content="noindex">
+{{headCommon}}
+<link rel="stylesheet" href="{{root}}assets/site.css">
+</head>
+<body>
+
+<div class="wrap">
+{{header}}
+
+  <main class="nf-main" id="top">
+    <h1>That page doesn’t exist</h1>
+    <p>The link may be old or mistyped. Search for a cursor value, or pick one below.</p>
+    <label class="nf-search">
+      <span class="sr">Search cursor values</span>
+      <input id="nf-q" type="search" placeholder="Search {{count}} values" autocomplete="off">
+    </label>
+    <div class="nf-grid" id="nf-grid">{{tiles}}</div>
+    <p class="empty" id="nf-empty">No cursor matches that search.</p>
+  </main>
+</div>
+
+{{footer}}
+
+<script type="application/json" id="cursory-page">{{pageJson}}</script>
+<script src="{{root}}assets/site.js"></script>
+<script>
+(function(){
+const P=JSON.parse($('#cursory-page').textContent);
+fillFooter(P.groups,P.root);
+const q=$('#nf-q'),tiles=$$('#nf-grid .ctile'),empty=$('#nf-empty');
+q.addEventListener('input',()=>{const t=q.value.trim().toLowerCase();let n=0;
+  tiles.forEach(a=>{const m=!t||a.dataset.search.includes(t);a.style.display=m?'':'none';if(m)n++});
+  empty.style.display=n?'none':'block'});
+})();
+</script>
+</body>
+</html>

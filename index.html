@@ -173,11 +173,11 @@
         <span class="badge"><i></i>All 36 keywords plus url()</span>
       </div>
       <div class="foot-col">
-        <h4>Reference</h4>
+        <h2>Reference</h2>
         <ul id="foot-groups"></ul>
       </div>
       <div class="foot-col">
-        <h4>Resources</h4>
+        <h2>Resources</h2>
         <ul>
           <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/cursor" target="_blank" rel="noopener">MDN: cursor</a></li>
           <li><a href="https://www.w3.org/TR/css-ui-4/#cursor" target="_blank" rel="noopener">CSS UI Level 4 spec</a></li>
@@ -187,7 +187,7 @@
         </ul>
       </div>
       <div class="foot-col">
-        <h4>Author</h4>
+        <h2>Author</h2>
         <div class="author"><b>Al Aowshad Himel</b><span>Product designer</span></div>
         <div class="socials">
       <a href="https://aowshad.com" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg></a>
@@ -211,21 +211,18 @@
 <script src="assets/demos.js"></script>
 <script>
 (function(){
-const COPYI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>';
 
 /* ---------- data: inlined by scripts/build.mjs, read from data/ when running the unbuilt source ---------- */
 const DATA=(()=>{try{return JSON.parse($('#cursory-data').textContent)}catch(_){}
   const get=f=>{const x=new XMLHttpRequest();x.open('GET',f,false);x.send();return JSON.parse(x.responseText)};
-  return {groups:get('data/groups.json'),cursors:get('data/cursors.json')};
+  return {groups:get('data/groups.json'),cursors:get('data/cursors.json'),systems:get('data/systems.json')};
 })();
 const {brushURL,mini}=CursoryDemos;
 const G=DATA.groups.map(g=>({id:g.id,t:g.title,p:g.description}));
 const C=DATA.cursors.map(d=>({...CursoryDemos.byKey[d.key],k:d.key,slug:d.slug,g:d.group,v:d.css,d:d.line,u:d.use,hint:d.hint||''}));
 
 /* ---------- render ---------- */
-const INFO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/></svg>';
 const main=$('#main'),chips=$('#chips');
-const CHECKI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 const slug=k=>k.replace(/[()]/g,'');
 G.forEach(g=>{
   const items=C.filter(c=>c.g===g.id);
@@ -237,8 +234,8 @@ G.forEach(g=>{
     const v=c.v||c.k;
     const a=document.createElement('article');a.className='card';a.id=slug(c.k);
     a.dataset.search=(c.k+' '+c.d+' '+c.u+' '+g.t).toLowerCase();
-    const hint=c.hint;const html=(c.html||'').replace(/<span class="hint"[^>]*>[\s\S]*?<\/span>/g,'');
-    a.innerHTML=`<div class="card-h"><h3 id="t-${slug(c.k)}"><a href="#${slug(c.k)}">${c.k}</a></h3>${hint?`<button class="info" type="button" aria-label="How to try it: ${hint}">${INFO}<span class="tipx" aria-hidden="true">${hint}</span></button>`:''}</div><p class="desc">${c.d}</p>
+    const hint=c.hint;const html=CursoryDemos.markup(c.k);
+    a.innerHTML=`<div class="card-h"><h3 id="t-${slug(c.k)}"><a href="#${slug(c.k)}">${c.k}</a></h3>${hint?`<button class="info" type="button" aria-label="How to try it: ${hint}">${INFO}<span class="tipx" aria-hidden="true">${hint}</span></button>`:''}<a class="open-page" href="cursor/${slug(c.k)}/" aria-label="Open the ${c.k} page">Open page <span aria-hidden="true">↗</span></a></div><p class="desc">${c.d}</p>
       <div class="stage${c.drag?' drag':''}">${html}</div>
       <div class="snip" data-v="${v.replace(/"/g,'&quot;')}"><code></code><button class="copy" type="button">${COPYI}<span>Copy</span></button></div>`;
     grid.appendChild(a);
@@ -251,31 +248,10 @@ G.forEach(g=>{
   main.appendChild(sec);
 });
 chips.insertAdjacentHTML('beforeend','<a class="chip" href="#tools">Tools</a><a class="chip" href="#systems">Across systems</a>');
-$('#foot-groups').innerHTML=G.map(g=>`<li><a href="#${g.id}">${g.t}</a></li>`).join('')+'<li><a href="builder.html">Cursor Studio</a></li><li><a href="lint.html">Cursor Lint</a></li><li><a href="#systems">Across systems</a></li>';
-document.addEventListener('click',e=>{const b=e.target.closest('.info');$$('.info.open').forEach(x=>{if(x!==b)x.classList.remove('open')});if(b)b.classList.toggle('open')});
+fillFooter(DATA.groups);
 C.forEach(c=>{try{c.init&&c.init(c._stage)}catch(err){console.error(c.k,err)}});
 
-/* ---------- copy ---------- */
-$$('.copy').forEach(b=>{if(!b.querySelector('span'))b.innerHTML=COPYI+'<span>Copy</span>'});
-
-/* ---------- copy format ---------- */
-let fmt=(()=>{let f=null;try{f=new URLSearchParams(location.search).get('format')}catch(_){}
-  if(f in FMTS){store.set('cursory-fmt',f);return f}f=store.get('cursory-fmt');return f in FMTS?f:'css'})();
-function renderSnips(flash){
-  $$('.snip[data-v],.tsnip[data-v]').forEach(s=>{$('code',s).textContent=formatSnippet(s.dataset.v,fmt);if(flash){clearTimeout(s._ft);s.classList.remove('flash');void s.offsetWidth;s.classList.add('flash');s._ft=setTimeout(()=>s.classList.remove('flash'),400)}});
-  $$('#fmt button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
-}
-function setFmt(f,announce){if(!(f in FMTS)||f===fmt)return;fmt=f;store.set('cursory-fmt',f);renderSnips(true);if(announce)toast(`Copy buttons now give ${FMTS[f]}`)}
-renderSnips(false);
-$$('#fmt button').forEach(b=>{b.tabIndex=b.dataset.f===fmt?0:-1;b.addEventListener('click',()=>{setFmt(b.dataset.f,true);$$('#fmt button').forEach(x=>x.tabIndex=x===b?0:-1)})});
-$('#fmt').addEventListener('keydown',e=>{const k=['css','tw','jsx'],d={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];if(!d)return;e.preventDefault();
-  const n=k[(k.indexOf(fmt)+d+k.length)%k.length];setFmt(n,true);$$('#fmt button').forEach(x=>x.tabIndex=x.dataset.f===n?0:-1);$(`#fmt [data-f="${n}"]`).focus()});
-document.addEventListener('click',e=>{const b=e.target.closest('.copy,.tcopy');if(!b)return;const tile=b.classList.contains('tcopy');
-  const s=tile?$('.tsnip',b.closest('.ctile')):b.closest('.snip[data-v]');const text=s?formatSnippet(s.dataset.v,fmt):b.dataset.copy;if(!text)return;
-  copyText(text).then(()=>{clearTimeout(b._t);b.classList.add('done');
-    if(tile){b.innerHTML=CHECKI;b._t=setTimeout(()=>{b.innerHTML=COPYI;b.classList.remove('done')},1200)}
-    else{const t=b.querySelector('span');t.textContent='Copied';b._t=setTimeout(()=>{t.textContent='Copy';b.classList.remove('done')},1200)}
-    toast('Copied',text)})});
+initCopy();
 
 /* ---------- view: cards or compact ---------- */
 const VIEWS=['cards','compact'];
@@ -339,17 +315,7 @@ document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!=
   const br=/Edg\//.test(ua)?'Edge':/Firefox\//.test(ua)?'Firefox':/OPR\//.test(ua)?'Opera':/Chrome\//.test(ua)?'Chrome':/Safari\//.test(ua)?'Safari':'your browser';
   const touch=matchMedia('(hover:none)').matches;
   $('#sysname').textContent=touch?`${br} on ${os}. This device has no cursor, so hovering won’t show anything.`:`You’re seeing ${br} on ${os}`;
-  const R=[
-    [['n-resize','e-resize','s-resize','w-resize','ne-resize','nw-resize','se-resize','sw-resize'],'<b>Windows has only four resize cursors</b>, so all eight one-way values draw as two-headed arrows there. Other systems and Linux themes may draw true one-way arrows. Prefer ew, ns, nesw and nwse.'],
-    [['ew-resize','ns-resize','nesw-resize','nwse-resize','col-resize','row-resize'],'The two-way arrows are native nearly everywhere. <b>col-resize and row-resize</b> look like split bars on some systems and like plain two-way arrows on others.'],
-    [['wait','progress'],'<b>Windows</b> draws wait as a spinning ring and progress as an arrow with a small ring. Some systems draw them almost the same, so always show busy state in the interface too.'],
-    [['grab','grabbing'],'Often drawn by the browser rather than the OS, so the hand can look different in <b>Chrome, Firefox and Safari</b> on the same machine.'],
-    [['zoom-in','zoom-out','alias','copy','cell','context-menu','vertical-text'],'Where the OS has no native version, <b>the browser ships its own image</b>. Expect small differences between browsers, and occasionally a plain arrow.'],
-    [['not-allowed','no-drop'],'Often the <b>same circle-with-slash</b> symbol. Don’t rely on the difference between them to carry meaning.'],
-    [['url()'],'Chrome and Firefox <b>ignore images larger than 128 × 128 px</b> and use the fallback. 32 × 32 is the reliable size, and SVG files need a fixed width and height.'],
-    [['Linux'],'Every value comes from the <b>desktop’s cursor theme</b>, so the whole set can change when someone switches themes.'],
-    [['Touch screens'],'Phones and tablets <b>draw no cursor</b>. Anything a cursor communicates must also be visible in the interface.']
-  ];
+  const R=DATA.systems.map(r=>[r.values,r.note]);
   $('#systable').insertAdjacentHTML('beforeend',R.map(([v,n])=>`<div class="sys-row"><div class="sys-vals">${v.map(x=>/^[a-z-]+$/.test(x)?`<code style="cursor:${x}">${x}</code>`:x==='url()'?`<code class="u">url()</code>`:`<span class="lbl">${x}</span>`).join('')}</div><p>${n}</p></div>`).join(''));
   const u=$('#systable code.u');if(u)u.style.cursor=`url("${brushURL}") 4 28, crosshair`;
 })();

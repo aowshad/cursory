@@ -2,6 +2,8 @@
 // Card text lives in data/cursors.json. This is a classic script: it needs assets/site.js first
 // ($, $$, root, copyText) and exposes window.CursoryDemos.
 (function(){
+// Assets resolve next to this script, so demos work from the main page and from /cursor/<slug>/.
+const ASSETS=(document.currentScript&&document.currentScript.getAttribute('src')||'assets/demos.js').replace(/demos\.js$/,'');
 const DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>';
 const LINK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg>';
 
@@ -171,7 +173,7 @@ const DEMOS=[
 ];
 
 DEMOS.forEach(c=>{if(c.z===undefined)return;
-  c.html=`<div class="zoomer${c.z?' z':''}"><img class="fabric" src="assets/zoom.webp" alt="Aerial view of a dense settlement of tin-roofed shelters and trees stretching to the horizon under a cloudy sky" draggable="false"></div><span class="hint">Click the photo</span>`;
+  c.html=`<div class="zoomer${c.z?' z':''}"><img class="fabric" src="${ASSETS}zoom.webp" alt="Aerial view of a dense settlement of tin-roofed shelters and trees stretching to the horizon under a cloudy sky" draggable="false"></div><span class="hint">Click the photo</span>`;
   c.init=s=>{const z=$('.zoomer',s),f=$('.fabric',s);const apply=(on,x,y)=>{z.classList.toggle('z',on);f.style.transformOrigin=`${x}px ${y}px`;f.style.transform=on?'scale(2.6)':'none'};
     if(c.z){z.classList.add('z');f.style.transformOrigin='50% 50%';f.style.transform='scale(2.6)'}
     z.addEventListener('click',e=>{const r=z.getBoundingClientRect();const on=!z.classList.contains('z');apply(on,e.clientX-r.left,e.clientY-r.top)})}});
@@ -208,5 +210,10 @@ function mini(k){
   return `<svg class="mini" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">${d||arrow}</svg>`;
 }
 
-window.CursoryDemos={byKey:Object.fromEntries(DEMOS.map(d=>[d.k,d])),brushURL,mini};
+const byKey=Object.fromEntries(DEMOS.map(d=>[d.k,d]));
+// Card markup without the old inline hint spans (hints now live in the ⓘ button).
+const markup=k=>((byKey[k]||{}).html||'').replace(/<span class="hint"[^>]*>[\s\S]*?<\/span>/g,'');
+// Put a demo into a stage element and start it.
+function mount(stage,k){const d=byKey[k];if(!d)return;stage.classList.toggle('drag',!!d.drag);stage.innerHTML=markup(k);try{d.init&&d.init(stage)}catch(err){console.error(k,err)}}
+window.CursoryDemos={byKey,brushURL,mini,markup,mount};
 })();

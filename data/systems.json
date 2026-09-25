@@ -1,0 +1,77 @@
+[
+  {
+    "values": [
+      "n-resize",
+      "e-resize",
+      "s-resize",
+      "w-resize",
+      "ne-resize",
+      "nw-resize",
+      "se-resize",
+      "sw-resize"
+    ],
+    "note": "<b>Windows has only four resize cursors</b>, so all eight one-way values draw as two-headed arrows there. Other systems and Linux themes may draw true one-way arrows. Prefer ew, ns, nesw and nwse."
+  },
+  {
+    "values": [
+      "ew-resize",
+      "ns-resize",
+      "nesw-resize",
+      "nwse-resize",
+      "col-resize",
+      "row-resize"
+    ],
+    "note": "The two-way arrows are native nearly everywhere. <b>col-resize and row-resize</b> look like split bars on some systems and like plain two-way arrows on others."
+  },
+  {
+    "values": [
+      "wait",
+      "progress"
+    ],
+    "note": "<b>Windows</b> draws wait as a spinning ring and progress as an arrow with a small ring. Some systems draw them almost the same, so always show busy state in the interface too."
+  },
+  {
+    "values": [
+      "grab",
+      "grabbing"
+    ],
+    "note": "Often drawn by the browser rather than the OS, so the hand can look different in <b>Chrome, Firefox and Safari</b> on the same machine."
+  },
+  {
+    "values": [
+      "zoom-in",
+      "zoom-out",
+      "alias",
+      "copy",
+      "cell",
+      "context-menu",
+      "vertical-text"
+    ],
+    "note": "Where the OS has no native version, <b>the browser ships its own image</b>. Expect small differences between browsers, and occasionally a plain arrow."
+  },
+  {
+    "values": [
+      "not-allowed",
+      "no-drop"
+    ],
+    "note": "Often the <b>same circle-with-slash</b> symbol. Don’t rely on the difference between them to carry meaning."
+  },
+  {
+    "values": [
+      "url()"
+    ],
+    "note": "Chrome and Firefox <b>ignore images larger than 128 × 128 px</b> and use the fallback. 32 × 32 is the reliable size, and SVG files need a fixed width and height."
+  },
+  {
+    "values": [
+      "Linux"
+    ],
+    "note": "Every value comes from the <b>desktop’s cursor theme</b>, so the whole set can change when someone switches themes."
+  },
+  {
+    "values": [
+      "Touch screens"
+    ],
+    "note": "Phones and tablets <b>draw no cursor</b>. Anything a cursor communicates must also be visible in the interface."
+  }
+]
