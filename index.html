@@ -111,7 +111,15 @@ html.lock,html.lock *{cursor:inherit!important;user-select:none!important;-webki
 .search input{width:100%;padding:8px 36px 8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);outline:none;box-shadow:var(--shadow-xs);font-size:.9rem}
 .search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .search kbd{position:absolute;right:8px;top:50%;transform:translateY(-50%);font:500 12px/1 var(--sans);color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:3px 6px;background:var(--stage)}
-@media (max-width:640px){.nav .wrap{flex-direction:column-reverse;align-items:stretch;gap:10px}.search{width:100%}.search kbd{display:none}}
+.fmt{display:flex;align-items:center;gap:8px;flex:none}
+.fmt-l{font-size:.84rem;font-weight:500;color:var(--muted);white-space:nowrap}
+.seg{display:flex;gap:2px;padding:2px;border-radius:10px;background:var(--stage);border:1px solid var(--line)}
+.seg button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;background:transparent;padding:6px 10px;border-radius:8px;font:500 .84rem var(--sans);color:var(--muted);cursor:pointer;white-space:nowrap}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-checked="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm),0 0 0 1px var(--line)}
+@media (hover:none){.seg button{min-height:32px}}
+@media (max-width:760px){.nav .wrap{flex-wrap:wrap}.fmt{order:-1;flex:1 0 100%}.fmt-l{display:none}.fmt .seg{flex:1}}
+@media (max-width:640px){.nav .wrap{flex-direction:column-reverse;flex-wrap:nowrap;align-items:stretch;gap:10px}.search{width:100%;order:2}.fmt{order:1;flex:none}.search kbd{display:none}}
 
 /* sections */
 main{padding-bottom:40px}
@@ -132,7 +140,11 @@ main{padding-bottom:40px}
 .card h3 a:hover{color:var(--accent)}
 .desc{margin:0;font-size:.95rem;line-height:1.45}
 .use{margin:0;font-size:.88rem;color:var(--muted);line-height:1.45}
-.snip{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding:6px 6px 6px 12px;background:var(--stage);border-radius:10px}
+.snip{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding:6px 6px 6px 12px;background:var(--stage);border-radius:10px;transition:box-shadow .2s}
+.snip.flash{box-shadow:0 0 0 2px var(--accent)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:60;max-width:calc(100% - 32px);transform:translate(-50%,8px);padding:9px 14px;border-radius:10px;background:var(--ink);color:var(--bg);font:500 .88rem/1.4 var(--sans);box-shadow:var(--shadow-md);text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast code{font-size:.84rem;overflow-wrap:anywhere}
 .snip code{font-size:.82rem;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
 .snip code::-webkit-scrollbar{display:none}
 .copy{flex:none;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:5px 10px;font-size:.8rem;font-weight:600;cursor:pointer;box-shadow:var(--shadow-xs);transition:background .15s,color .15s}
@@ -441,6 +453,14 @@ footer{border-top:1px solid var(--line);margin-top:96px;background:var(--stage)}
 <nav class="nav" aria-label="Cursor groups">
   <div class="wrap">
     <div class="chips" id="chips"></div>
+    <div class="fmt">
+      <span class="fmt-l" id="fmt-l">Copy as</span>
+      <div class="seg" id="fmt" role="radiogroup" aria-labelledby="fmt-l">
+        <button type="button" role="radio" aria-checked="true" data-f="css">CSS</button>
+        <button type="button" role="radio" aria-checked="false" data-f="tw">Tailwind</button>
+        <button type="button" role="radio" aria-checked="false" data-f="jsx">JSX</button>
+      </div>
+    </div>
     <label class="search">
       <span class="sr">Search cursor values</span>
       <input id="q" type="search" placeholder="Search values" autocomplete="off">
@@ -450,6 +470,7 @@ footer{border-top:1px solid var(--line);margin-top:96px;background:var(--stage)}
 </nav>
 
 <main class="wrap" id="main"></main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="wrap"><p class="empty" id="empty"></p></div>
 <div class="wrap" id="extras">
   <section class="extra" id="studio">
@@ -750,7 +771,7 @@ G.forEach(g=>{
     const hint=HINTS[c.k]||'';const html=(c.html||'').replace(/<span class="hint"[^>]*>[\s\S]*?<\/span>/g,'');
     a.innerHTML=`<div class="card-h"><h3><a href="#${slug(c.k)}">${c.k}</a></h3>${hint?`<button class="info" type="button" aria-label="How to try it: ${hint}">${INFO}<span class="tipx" aria-hidden="true">${hint}</span></button>`:''}</div><p class="desc">${c.d}</p>
       <div class="stage${c.drag?' drag':''}">${html}</div>
-      <div class="snip"><code>cursor: ${v.replace(/</g,'&lt;')};</code><button class="copy" type="button" data-copy="cursor: ${v.replace(/"/g,'&quot;')};">${COPYI}<span>Copy</span></button></div>`;
+      <div class="snip" data-v="${v.replace(/"/g,'&quot;')}"><code></code><button class="copy" type="button">${COPYI}<span>Copy</span></button></div>`;
     grid.appendChild(a);
     c._stage=$('.stage',a);
   });
@@ -771,7 +792,32 @@ function copyText(t){
 }
 function fallback(t){const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}ta.remove()}
 $$('.copy').forEach(b=>{if(!b.querySelector('span'))b.innerHTML=COPYI+'<span>Copy</span>'});
-document.addEventListener('click',e=>{const b=e.target.closest('.copy');if(!b)return;copyText(b.dataset.copy).then(()=>{const t=b.querySelector('span');t.textContent='Copied';b.classList.add('done');setTimeout(()=>{t.textContent='Copy';b.classList.remove('done')},1400)})});
+
+/* ---------- copy format ---------- */
+const FMTS={css:'CSS',tw:'Tailwind',jsx:'JSX'};
+// The only place snippet strings are built. What a .snip shows is exactly what its button copies.
+function formatSnippet(value,fmt){
+  if(fmt==='tw')return 'cursor-'+(/^url\(/.test(value)?'['+value.replace(/url\((["'])(.*?)\1\)/g,'url($2)').replace(/ /g,'_')+']':value);
+  if(fmt==='jsx')return `style={{ cursor: '${value.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}' }}`;
+  return `cursor: ${value};`;
+}
+const store={get:k=>{try{return localStorage.getItem(k)}catch(_){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(_){}}};
+let fmt=(()=>{let f=null;try{f=new URLSearchParams(location.search).get('format')}catch(_){}
+  if(f in FMTS){store.set('cursory-fmt',f);return f}f=store.get('cursory-fmt');return f in FMTS?f:'css'})();
+const toastEl=$('#toast');let toastT;
+function toast(text,code){toastEl.textContent=text;if(code){const c=document.createElement('code');c.textContent=code;toastEl.append(' ',c)}
+  toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('show'),1800)}
+function renderSnips(flash){
+  $$('.snip[data-v]').forEach(s=>{$('code',s).textContent=formatSnippet(s.dataset.v,fmt);if(flash){clearTimeout(s._ft);s.classList.remove('flash');void s.offsetWidth;s.classList.add('flash');s._ft=setTimeout(()=>s.classList.remove('flash'),400)}});
+  $$('#fmt button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
+}
+function setFmt(f,announce){if(!(f in FMTS)||f===fmt)return;fmt=f;store.set('cursory-fmt',f);renderSnips(true);if(announce)toast(`Copy buttons now give ${FMTS[f]}`)}
+renderSnips(false);
+$$('#fmt button').forEach(b=>{b.tabIndex=b.dataset.f===fmt?0:-1;b.addEventListener('click',()=>{setFmt(b.dataset.f,true);$$('#fmt button').forEach(x=>x.tabIndex=x===b?0:-1)})});
+$('#fmt').addEventListener('keydown',e=>{const k=['css','tw','jsx'],d={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];if(!d)return;e.preventDefault();
+  const n=k[(k.indexOf(fmt)+d+k.length)%k.length];setFmt(n,true);$$('#fmt button').forEach(x=>x.tabIndex=x.dataset.f===n?0:-1);$(`#fmt [data-f="${n}"]`).focus()});
+document.addEventListener('click',e=>{const b=e.target.closest('.copy');if(!b)return;const s=b.closest('.snip[data-v]');const text=s?formatSnippet(s.dataset.v,fmt):b.dataset.copy;if(!text)return;
+  copyText(text).then(()=>{const t=b.querySelector('span');t.textContent='Copied';b.classList.add('done');clearTimeout(b._t);b._t=setTimeout(()=>{t.textContent='Copy';b.classList.remove('done')},1200);toast('Copied',text)})});
 
 /* ---------- search ---------- */
 const q=$('#q'),empty=$('#empty');

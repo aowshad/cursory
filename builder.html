@@ -227,7 +227,7 @@ html.lock,html.lock *{cursor:inherit!important;user-select:none!important;-webki
 
 /* dock */
 .dock{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--line);background:var(--surface);flex-wrap:wrap}
-.dock .seg{width:250px}
+.dock .seg{width:320px}
 .snip{flex:1;min-width:220px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 6px 6px 12px;background:var(--stage);border-radius:10px;border:1px solid var(--line)}
 .snip code{min-width:0;font-size:.82rem;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
 .snip code::-webkit-scrollbar{display:none}
@@ -364,6 +364,7 @@ html.lock,html.lock *{cursor:inherit!important;user-select:none!important;-webki
       <button type="button" role="radio" aria-checked="true" data-f="css">CSS</button>
       <button type="button" role="radio" aria-checked="false" data-f="tw">Tailwind</button>
       <button type="button" role="radio" aria-checked="false" data-f="inline">Inline</button>
+      <button type="button" role="radio" aria-checked="false" data-f="jsx">JSX</button>
     </div>
     <div class="snip"><code id="code"></code><button class="copy" type="button" id="copy"></button></div>
     <button class="btn ghost" type="button" id="dlSvg">Download SVG</button>
@@ -406,7 +407,8 @@ const LIB=[
 ];
 const SIZES=[16,24,32,48,64],PRE=['#0E121B','#FFFFFF','#335CFF','#FB3748','#1FC16B','#F6B51E','#7D52F4','#FF6BB5'];
 const FB=['auto','default','pointer','crosshair','text','move','grab','copy','cell','not-allowed','help'];
-const init=()=>({src:'lib',lib:LIB[0],si:2,F:'#0E121B',O:'#FFFFFF',ol:true,rot:0,flip:false,shadow:true,h:{x:LIB[0].hs[0]/32,y:LIB[0].hs[1]/32},fb:'auto',fmt:'css',bg:'light'});
+const savedFmt=()=>{let f=null;try{f=localStorage.getItem('cursory-fmt')}catch(_){}return f==='tw'||f==='jsx'?f:'css'};
+const init=()=>({src:'lib',lib:LIB[0],si:2,F:'#0E121B',O:'#FFFFFF',ol:true,rot:0,flip:false,shadow:true,h:{x:LIB[0].hs[0]/32,y:LIB[0].hs[1]/32},fb:'auto',fmt:savedFmt(),bg:'light'});
 let st=init(),up=null,url='',svg='';
 const S=()=>SIZES[st.si];
 
@@ -460,15 +462,16 @@ function draw(){
   E('try').style.cursor=`url("${url}") ${x} ${y}, ${st.fb}`;
   const name=lib?st.lib.id+'.svg':up.base+'.png';
   E('meta').innerHTML=`<b>${esc(name)}</b>, ${s} × ${s} px, hotspot ${x}, ${y}`;
-  const full=`cursor: url("${st.fmt==='inline'?url:name}") ${x} ${y}, ${st.fb};`,tw=`cursor-[url(${name})_${x}_${y},_${st.fb}]`;
-  E('code').textContent=st.fmt==='tw'?tw:st.fmt==='inline'?`cursor: url("${url.slice(0,30)}…") ${x} ${y}, ${st.fb};`:full;
-  E('copy').dataset.copy=st.fmt==='tw'?tw:full;
+  const full=`cursor: url("${st.fmt==='inline'?url:name}") ${x} ${y}, ${st.fb};`,tw=`cursor-[url(${name})_${x}_${y},_${st.fb}]`,jsx=`style={{ cursor: 'url("${name}") ${x} ${y}, ${st.fb}' }}`;
+  E('code').textContent=st.fmt==='tw'?tw:st.fmt==='jsx'?jsx:st.fmt==='inline'?`cursor: url("${url.slice(0,30)}…") ${x} ${y}, ${st.fb};`:full;
+  E('copy').dataset.copy=st.fmt==='tw'?tw:st.fmt==='jsx'?jsx:full;
   const n=[];
   if(s>32)n.push(['','Above 32 × 32 px, some systems scale the cursor down or draw it inconsistently. 32 is the safest size.']);
   if(s<24)n.push(['','At this size fine detail disappears. Keep shapes bold and turn the outline on.']);
   if(lib&&!st.ol&&(st.F.toLowerCase()==='#ffffff'||st.F.toLowerCase()==='#0e121b'))n.push(['','Without an outline, this pointer disappears on backgrounds of the same color. Try it on Light and Dark below.']);
   if(!lib&&up.note)n.push(['',up.note]);
   if(st.fmt==='tw')n.push(['ok','Put the file in your public folder and use the class as is. Tailwind reads the underscores as spaces.']);
+  if(st.fmt==='jsx')n.push(['ok','Put the file in your public folder and add the style prop to any React element.']);
   if(!n.length)n.push(['ok','Ready to ship. The fallback shows if the image fails to load.']);
   E('notes').innerHTML=n.map(([c,t])=>`<li class="${c}">${t}</li>`).join('');
 }
@@ -517,7 +520,7 @@ E('olc').addEventListener('input',e=>{st.O=e.target.value;libPanel();draw()});
 E('presets').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;st.F=b.dataset.c;if(st.F.toLowerCase()==='#ffffff'&&st.O.toLowerCase()==='#ffffff')st.O='#0E121B';else if(st.F.toLowerCase()!=='#ffffff'&&st.O.toLowerCase()==='#0e121b'&&st.F.toLowerCase()==='#0e121b')st.O='#FFFFFF';libPanel();draw()});
 E('resetColors').addEventListener('click',()=>{st.F='#0E121B';st.O='#FFFFFF';st.ol=true;libPanel();draw()});
 E('fb').addEventListener('change',e=>{st.fb=e.target.value;draw()});
-E('fmt').addEventListener('click',e=>{const b=e.target.closest('button');if(b){st.fmt=b.dataset.f;draw()}});
+E('fmt').addEventListener('click',e=>{const b=e.target.closest('button');if(b){st.fmt=b.dataset.f;if(st.fmt!=='inline')try{localStorage.setItem('cursory-fmt',st.fmt)}catch(_){}draw()}});
 E('bg').addEventListener('click',e=>{const b=e.target.closest('button');if(b){st.bg=b.dataset.bg;draw()}});
 [E('hx'),E('hy')].forEach(i=>i.addEventListener('change',()=>setPx(Math.round(+E('hx').value||0),Math.round(+E('hy').value||0))));
 E('snap').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const s=S();if(b.dataset.h==='def'){hsDef();draw()}else if(b.dataset.h==='tl')setPx(0,0);else setPx(Math.floor(s/2),Math.floor(s/2))});
