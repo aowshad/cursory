@@ -97,12 +97,12 @@ html.lock,html.lock *{cursor:inherit!important;user-select:none!important;-webki
 .lede{max-width:56ch;font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--muted);margin:40px 0 0}
 .lede strong{color:var(--ink);font-weight:600}
 .touch-note{display:none;margin-top:20px;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;font-size:.92rem;color:var(--muted);max-width:56ch}
-@media (hover:none){.touch-note{display:block}}
+@media (hover:none){.touch-note{display:block}.info::after,.q::after{content:"";position:absolute;inset:-6px}.q::after{inset:-7px}.hover-hint{display:none}}
 
 /* nav */
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;gap:16px;align-items:center;padding-top:12px;padding-bottom:12px}
-.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;padding-right:24px;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent)}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.88rem;font-weight:500;padding:6px 8px 6px 12px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--muted);white-space:nowrap;box-shadow:var(--shadow-xs);transition:color .15s,background .15s}
 .chip:hover{color:var(--ink);background:var(--stage)}
@@ -433,7 +433,7 @@ footer{border-top:1px solid var(--line);margin-top:96px;background:var(--stage)}
       <span class="w" style="cursor:ew-resize">resize</span>,
       <span class="w" style="cursor:wait">wait.</span>
     </h1>
-    <p class="lede">The cursor is the first thing that tells people what they can do. <strong>Cursory puts every CSS cursor value inside the interface it was made for</strong>, so you can feel the difference, then copy the one line you need. Hover the headline to start.</p>
+    <p class="lede">The cursor is the first thing that tells people what they can do. <strong>Cursory puts every CSS cursor value inside the interface it was made for</strong>, so you can feel the difference, then copy the one line you need.<span class="hover-hint"> Hover the headline to start.</span></p>
     <p class="touch-note">Cursors only appear with a mouse or trackpad. On this device you can still read each value, try the demos, and copy the CSS.</p>
   </section>
 </div>
@@ -693,7 +693,7 @@ const C=[
   const fromE=e=>{const r=s.getBoundingClientRect();set((e.clientX-r.left)/r.width*100)};drag(s,{cursor:'ew-resize',start:fromE,move:fromE});
   d.addEventListener('keydown',e=>{const v=+d.getAttribute('aria-valuenow');if(e.key==='ArrowLeft')set(v-5);if(e.key==='ArrowRight')set(v+5)})}},
 {k:'ns-resize',g:'resize',d:'Something can be resized up and down.',u:'Bottom panels like a terminal, console, or timeline.',drag:true,
- html:`<div class="ide"><div class="code-a"><b>export</b> function greet(name) {<br>&nbsp;&nbsp;<b>return</b> \`Hello, \${name}\`;<br>}<br><br>greet("Dhaka");</div><div class="term" style="height:78px"><div class="grip-h"></div><div class="ttl">Terminal</div>$ node greet.js<br>Hello, Dhaka<br>$ _</div></div>`,
+ html:`<div class="ide"><div class="code-a"><b>export</b> function greet(name) {<br>&nbsp;&nbsp;<b>return</b> \`Hello, \${name}\`;<br>}<br>greet("Dhaka");</div><div class="term" style="height:92px"><div class="grip-h"></div><div class="ttl">Terminal</div>$ node greet.js<br>Hello, Dhaka<br>$ _</div></div>`,
  init:s=>{const t=$('.term',s);let h;drag($('.grip-h',s),{cursor:'ns-resize',start:()=>{h=t.offsetHeight},move:(e,e0)=>{t.style.height=clamp(h-(e.clientY-e0.clientY),34,s.clientHeight-34)+'px'}})}},
 {k:'nesw-resize',g:'resize',d:'Resizable along the northeast to southwest diagonal.',u:'The matching corner pair of crop boxes and selections.',drag:true,
  html:'<span class="hint">Drag a corner</span>',init:s=>resizer(s,{dirs:['ne','sw'],cur:'nesw-resize',rect:[.22,.18,.56,.58],label:'Crop area'})},

@@ -104,7 +104,7 @@ html.lock,html.lock *{cursor:inherit!important;user-select:none!important;-webki
 .right{border-left:1px solid var(--line);background:var(--stage)}
 .center{display:flex;flex-direction:column;gap:14px;background:var(--bg)}
 @media (max-width:1060px){.main{grid-template-columns:1fr 1fr}.center{grid-column:1/-1;grid-row:1;border-bottom:1px solid var(--line)}.pane{overflow:visible}.left{border-right:1px solid var(--line)}.right{border-left:0}}
-@media (max-width:700px){.main{grid-template-columns:1fr}.left{border-right:0;border-bottom:1px solid var(--line)}}
+@media (max-width:700px){.bar{flex-wrap:wrap}.bar .div{display:none}.main{grid-template-columns:minmax(0,1fr)}.pane{min-width:0}.lib{grid-template-columns:repeat(4,minmax(0,1fr))}.left{border-right:0;border-bottom:1px solid var(--line)}}
 
 /* left */
 .gt{margin:18px 4px 8px;font-size:.78rem;font-weight:600;color:var(--soft)}
