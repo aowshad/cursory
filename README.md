@@ -14,7 +14,7 @@ An interactive reference for the CSS `cursor` property. Each value runs inside a
 - **Light and dark themes.** Uses the visitor's system theme on the first visit and remembers their choice.
 - **Search and deep links.** Press `/` to search. Every card has its own URL, for example `/#grab`.
 
-It's one self-contained `index.html` with no build step and no dependencies. Fonts load from Google Fonts: Instrument Sans for text, JetBrains Mono for CSS.
+There's no build step and no dependencies. Each page is a single HTML file, and the only separate asset is the photo in the zoom demos. Fonts load from Google Fonts: Instrument Sans for text, JetBrains Mono for CSS.
 
 ## Run locally
 
@@ -42,10 +42,12 @@ To use a custom domain instead, replace `https://aowshad.github.io/cursory/` in 
 | `builder.html` | Cursor Studio, the full-page editor |
 | `og.png` | 1200 × 630 share image for LinkedIn, X and Slack |
 | `favicon.svg` | Standalone favicon (an inline copy is embedded in `index.html`) |
+| `assets/zoom.webp` | Photo used in the `zoom-in` and `zoom-out` demos |
 
 ## Credits
 
 Designed and built by [Al Aowshad Himel](https://aowshad.com).
+Zoom demo photo from [Pexels](https://www.pexels.com/).
 [LinkedIn](https://www.linkedin.com/in/aowshad-himel-65394a1a1) · [X](https://x.com/aowshadhimel) · [YouTube](https://www.youtube.com/@aowshad4130) · [GitHub](https://github.com/aowshad)
 
 ## License
