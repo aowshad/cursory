@@ -1,0 +1,335 @@
+[
+  {
+    "key": "auto",
+    "slug": "auto",
+    "group": "general",
+    "css": "auto",
+    "line": "Lets the browser choose. Use it to undo an override.",
+    "hint": "Hover the sentence, the link, then the empty space around them.",
+    "use": "The initial value. Set it to undo an inherited override."
+  },
+  {
+    "key": "default",
+    "slug": "default",
+    "group": "general",
+    "css": "default",
+    "line": "The plain arrow, for app chrome like toolbars and menus.",
+    "hint": "Hover the words in each toolbar and compare.",
+    "use": "App chrome like toolbars and menus, where the labels aren’t meant to be selected."
+  },
+  {
+    "key": "none",
+    "slug": "none",
+    "group": "general",
+    "css": "none",
+    "line": "Hides the cursor. Always draw your own replacement.",
+    "hint": "Move your pointer inside the dark area.",
+    "use": "Custom cursors, games, and video players that hide the pointer during playback. Always draw a replacement."
+  },
+  {
+    "key": "context-menu",
+    "slug": "context-menu",
+    "group": "status",
+    "css": "context-menu",
+    "line": "More actions are available on right-click.",
+    "hint": "Right-click or click a file to open its menu.",
+    "use": "Rows and objects that keep extra actions behind a right-click."
+  },
+  {
+    "key": "help",
+    "slug": "help",
+    "group": "status",
+    "css": "help",
+    "line": "Help is available, usually as a tooltip.",
+    "hint": "Hover the question mark next to the label.",
+    "use": "Info icons and terms that explain themselves in a tooltip."
+  },
+  {
+    "key": "pointer",
+    "slug": "pointer",
+    "group": "status",
+    "css": "pointer",
+    "line": "For links, buttons, and anything clickable.",
+    "hint": "Hover the shoe or the button, pick a size, then add it to your bag.",
+    "use": "Links, buttons, and clickable cards. Not for plain text or disabled controls."
+  },
+  {
+    "key": "progress",
+    "slug": "progress",
+    "group": "status",
+    "css": "progress",
+    "line": "Busy in the background, but still usable.",
+    "hint": "Start the sync, then keep moving around the card.",
+    "use": "Syncs, uploads, and exports that don’t block the interface."
+  },
+  {
+    "key": "wait",
+    "slug": "wait",
+    "group": "status",
+    "css": "wait",
+    "line": "Busy and blocking input. Pair it with a spinner.",
+    "hint": "Click Publish and hover while it works.",
+    "use": "Short, blocking operations. Pair it with a visible spinner or message."
+  },
+  {
+    "key": "cell",
+    "slug": "cell",
+    "group": "selection",
+    "css": "cell",
+    "line": "Selects a cell or a range in a grid.",
+    "hint": "Drag across the grid to select a range.",
+    "use": "Spreadsheets and editable data grids."
+  },
+  {
+    "key": "crosshair",
+    "slug": "crosshair",
+    "group": "selection",
+    "css": "crosshair",
+    "line": "Precise selection for cropping, screenshots, and charts.",
+    "hint": "Drag anywhere to capture a region.",
+    "use": "Screenshot tools, image cropping, and plotting points on a chart."
+  },
+  {
+    "key": "text",
+    "slug": "text",
+    "group": "selection",
+    "css": "text",
+    "line": "Text can be selected or edited. Set it on the whole box.",
+    "hint": "Hover the padding inside each box and compare.",
+    "use": "Editable areas that aren’t native inputs. Set it on the whole box so the padding shows an I-beam too."
+  },
+  {
+    "key": "vertical-text",
+    "slug": "vertical-text",
+    "group": "selection",
+    "css": "vertical-text",
+    "line": "Selectable text in a vertical writing mode.",
+    "hint": "Hover and select the poem.",
+    "use": "Content set with writing-mode: vertical-rl, common in Japanese, Chinese and Korean typography."
+  },
+  {
+    "key": "alias",
+    "slug": "alias",
+    "group": "drag",
+    "css": "alias",
+    "line": "Creates a shortcut instead of moving the item.",
+    "hint": "Click a file to pin a shortcut.",
+    "use": "Pinning, bookmarking, and linking to an item that stays where it is."
+  },
+  {
+    "key": "copy",
+    "slug": "copy",
+    "group": "drag",
+    "css": "copy",
+    "line": "Something will be copied, by click or by drag.",
+    "hint": "Click the code to copy it.",
+    "use": "Copy-to-clipboard fields and drags that duplicate instead of move."
+  },
+  {
+    "key": "move",
+    "slug": "move",
+    "group": "drag",
+    "css": "move",
+    "line": "Moves an object freely on a canvas.",
+    "hint": "Drag the logo around the canvas.",
+    "use": "Objects on design canvases, whiteboards, and layout editors."
+  },
+  {
+    "key": "no-drop",
+    "slug": "no-drop",
+    "group": "drag",
+    "css": "no-drop",
+    "line": "The dragged item can’t be dropped here.",
+    "hint": "Drag the file onto each folder.",
+    "use": "Drop zones that refuse the item, like read-only folders or the wrong file type."
+  },
+  {
+    "key": "not-allowed",
+    "slug": "not-allowed",
+    "group": "drag",
+    "css": "not-allowed",
+    "line": "The action is unavailable. Always explain why nearby.",
+    "hint": "Hover the button, then accept the terms.",
+    "use": "Disabled controls. Always say why nearby, since a cursor alone can’t explain."
+  },
+  {
+    "key": "grab",
+    "slug": "grab",
+    "group": "drag",
+    "css": "grab",
+    "line": "Can be grabbed and dragged, before the button is pressed.",
+    "hint": "Drag the photo strip sideways.",
+    "use": "Pannable strips, carousels, and draggable cards, before the button is pressed."
+  },
+  {
+    "key": "grabbing",
+    "slug": "grabbing",
+    "group": "drag",
+    "css": "grabbing",
+    "line": "Being held. Show it while a drag is in progress.",
+    "hint": "Drag a task up or down to reorder it.",
+    "use": "The pressed state during a drag. Swap it in on pointerdown, back to grab on release."
+  },
+  {
+    "key": "n-resize",
+    "slug": "n-resize",
+    "group": "resize",
+    "css": "n-resize",
+    "line": "The edge moves up only, like a bottom sheet.",
+    "hint": "Drag the handle on the edge.",
+    "use": "An edge that can only grow upward, like a bottom sheet."
+  },
+  {
+    "key": "s-resize",
+    "slug": "s-resize",
+    "group": "resize",
+    "css": "s-resize",
+    "line": "The edge moves down only, like an expanding field.",
+    "hint": "Drag the handle on the edge.",
+    "use": "An edge that can only grow downward, like an expanding notes field."
+  },
+  {
+    "key": "e-resize",
+    "slug": "e-resize",
+    "group": "resize",
+    "css": "e-resize",
+    "line": "The edge moves right only, like a left sidebar.",
+    "hint": "Drag the handle on the edge.",
+    "use": "The right edge of a sidebar docked to the left."
+  },
+  {
+    "key": "w-resize",
+    "slug": "w-resize",
+    "group": "resize",
+    "css": "w-resize",
+    "line": "The edge moves left only, like a right-hand inspector.",
+    "hint": "Drag the handle on the edge.",
+    "use": "The left edge of an inspector docked to the right."
+  },
+  {
+    "key": "ne-resize",
+    "slug": "ne-resize",
+    "group": "resize",
+    "css": "ne-resize",
+    "line": "The corner moves up and right, for panels docked bottom-left.",
+    "hint": "Drag the corner handle.",
+    "use": "The free corner of a panel docked bottom-left."
+  },
+  {
+    "key": "nw-resize",
+    "slug": "nw-resize",
+    "group": "resize",
+    "css": "nw-resize",
+    "line": "The corner moves up and left, for chat widgets docked bottom-right.",
+    "hint": "Drag the corner handle.",
+    "use": "The free corner of a chat widget docked bottom-right."
+  },
+  {
+    "key": "se-resize",
+    "slug": "se-resize",
+    "group": "resize",
+    "css": "se-resize",
+    "line": "The corner moves down and right, for notes pinned top-left.",
+    "hint": "Drag the corner handle.",
+    "use": "The free corner of a note pinned top-left."
+  },
+  {
+    "key": "sw-resize",
+    "slug": "sw-resize",
+    "group": "resize",
+    "css": "sw-resize",
+    "line": "The corner moves down and left, for menus anchored top-right.",
+    "hint": "Drag the corner handle.",
+    "use": "The free corner of a menu anchored top-right."
+  },
+  {
+    "key": "ew-resize",
+    "slug": "ew-resize",
+    "group": "resize",
+    "css": "ew-resize",
+    "line": "Resizes left and right, for sliders and vertical dividers.",
+    "hint": "Drag the divider left or right.",
+    "use": "Before-and-after sliders, vertical dividers, and range handles."
+  },
+  {
+    "key": "ns-resize",
+    "slug": "ns-resize",
+    "group": "resize",
+    "css": "ns-resize",
+    "line": "Resizes up and down, for bottom panels and consoles.",
+    "hint": "Drag the terminal’s top edge.",
+    "use": "Bottom panels like a terminal, console, or timeline."
+  },
+  {
+    "key": "nesw-resize",
+    "slug": "nesw-resize",
+    "group": "resize",
+    "css": "nesw-resize",
+    "line": "Diagonal resize for the top-right and bottom-left corners.",
+    "hint": "Drag either corner handle.",
+    "use": "The matching corner pair of crop boxes and selections."
+  },
+  {
+    "key": "nwse-resize",
+    "slug": "nwse-resize",
+    "group": "resize",
+    "css": "nwse-resize",
+    "line": "Diagonal resize for the top-left and bottom-right corners.",
+    "hint": "Drag either corner handle.",
+    "use": "The matching corner pair for resizing images and windows."
+  },
+  {
+    "key": "col-resize",
+    "slug": "col-resize",
+    "group": "resize",
+    "css": "col-resize",
+    "line": "For column dividers in tables and grids.",
+    "hint": "Drag a column divider in the header.",
+    "use": "Column dividers in tables and data grids."
+  },
+  {
+    "key": "row-resize",
+    "slug": "row-resize",
+    "group": "resize",
+    "css": "row-resize",
+    "line": "For dividers between stacked panes.",
+    "hint": "Drag the bar between the two panes.",
+    "use": "Split panes stacked on top of each other, like a query and its results."
+  },
+  {
+    "key": "all-scroll",
+    "slug": "all-scroll",
+    "group": "scroll",
+    "css": "all-scroll",
+    "line": "Pans in any direction, like a map.",
+    "hint": "Drag the map in any direction.",
+    "use": "Maps, large canvases, and middle-click autoscroll."
+  },
+  {
+    "key": "zoom-in",
+    "slug": "zoom-in",
+    "group": "scroll",
+    "css": "zoom-in",
+    "line": "Magnifies an image or product photo on click.",
+    "hint": "Click the photo to zoom in.",
+    "use": "Product photos and image viewers in their normal state."
+  },
+  {
+    "key": "zoom-out",
+    "slug": "zoom-out",
+    "group": "scroll",
+    "css": "zoom-out",
+    "line": "The zoomed state. Click to return to normal size.",
+    "hint": "Click the photo to zoom out.",
+    "use": "The zoomed state of the same viewer. Swap the two on each click."
+  },
+  {
+    "key": "url()",
+    "slug": "url",
+    "group": "custom",
+    "css": "url(\"brush.svg\") 4 28, crosshair",
+    "line": "Your own image. Keep it 32 × 32 px with a keyword fallback.",
+    "hint": "Draw on the canvas with the brush.",
+    "use": "Tool cursors like brushes and pens. Keep images at 32 × 32 px or smaller, and always end with a keyword."
+  }
+]

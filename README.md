@@ -15,47 +15,52 @@ An interactive reference for the CSS `cursor` property. Each value runs inside a
 - **Light and dark themes.** Uses the visitor's system theme on the first visit and remembers their choice.
 - **Search and deep links.** Press `/` to search. Every card has its own URL, for example `/#grab`.
 
-There's no build step and no runtime dependencies. Each page is a single HTML file. The separate files are the photo in the zoom demos and Cursor Lint's rule engine, `lint-engine.js`, which the page and the tests share. Cursor Lint loads [css-tree](https://github.com/csstree/csstree) from a pinned jsDelivr build. Fonts load from Google Fonts: Instrument Sans for text, JetBrains Mono for CSS.
+The published site has no runtime dependencies. Card text lives once in `data/`, demos once in `assets/demos.js`, and a small Node build puts the pages together into `dist/`. Cursor Lint loads [css-tree](https://github.com/csstree/csstree) from a pinned jsDelivr build. Fonts load from Google Fonts: Instrument Sans for text, JetBrains Mono for CSS.
 
 ## Run locally
 
 ```bash
 git clone https://github.com/aowshad/cursory.git
 cd cursory
-python3 -m http.server 8000
+npm install
+npm run dev
 # open http://localhost:8000
 ```
 
-## Test Cursor Lint
+`npm run build` writes the site to `dist/` without serving it. The unbuilt source also works from any static server, because `index.html` reads `data/` directly when the data isn't inlined.
 
-The site has no dependencies. The tests use two dev-only packages, css-tree and linkedom:
-
-```bash
-npm install
-node tests/lint.test.mjs
-```
-
-## Deploy to GitHub Pages
+## Test
 
 ```bash
-gh repo create aowshad/cursory --public --source=. --push
-gh api -X POST repos/aowshad/cursory/pages -f "source[branch]=main" -f "source[path]=/"
+npm test
 ```
 
-To use a custom domain instead, replace `https://aowshad.github.io/cursory/` in the `canonical`, `og:url`, `og:image` and `twitter:image` tags in `index.html`.
+This runs the Cursor Lint regression suite. The dev-only packages (css-tree, linkedom and Playwright) never reach the published site.
+
+## Deploy
+
+Every push to `main` runs `.github/workflows/pages.yml`: it installs dependencies, runs the tests, builds `dist/` and deploys it to GitHub Pages. In the repo settings, **Pages → Source** must be set to **GitHub Actions**.
+
+To use a custom domain instead, replace `https://aowshad.github.io/cursory/` in the `canonical`, `og:url`, `og:image` and `twitter:image` tags, and `SITE` in `scripts/build.mjs`.
 
 ## Files
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | The reference site |
+| `index.html` | The reference site. Its cards are built from `data/` and `assets/demos.js` |
 | `builder.html` | Cursor Studio, the full-page editor |
 | `lint.html` | Cursor Lint, the CSS and HTML checker |
 | `lint-engine.js` | Cursor Lint's rule engine, shared by the page and the tests |
+| `data/cursors.json` | Every value's text: description, hint and search terms |
+| `data/groups.json` | Group ids, titles and descriptions |
+| `assets/demos.js` | Every demo's markup and behavior, plus the compact view's mini previews |
+| `assets/site.css` | Design tokens, components and demo styles for the main page |
+| `assets/site.js` | Shared helpers: theme, clipboard, copy formats and the toast |
+| `assets/zoom.webp` | Photo used in the `zoom-in` and `zoom-out` demos |
+| `scripts/build.mjs` | Builds `dist/`, inlines the data, writes the sitemap and robots.txt. `--serve` serves it |
 | `tests/` | Regression cases for the rule engine (`lint-cases.json`) and the runner |
 | `og.png` | 1200 × 630 share image for LinkedIn, X and Slack |
 | `favicon.svg` | Standalone favicon (an inline copy is embedded in `index.html`) |
-| `assets/zoom.webp` | Photo used in the `zoom-in` and `zoom-out` demos |
 
 ## Credits
 

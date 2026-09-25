@@ -1,0 +1,37 @@
+[
+  {
+    "id": "general",
+    "title": "General",
+    "description": "Baseline behavior: let the browser decide, force the plain arrow, or hide the cursor entirely."
+  },
+  {
+    "id": "status",
+    "title": "Links and status",
+    "description": "What will happen on click, and whether the app is busy."
+  },
+  {
+    "id": "selection",
+    "title": "Selection",
+    "description": "What kind of selection the area supports."
+  },
+  {
+    "id": "drag",
+    "title": "Drag and drop",
+    "description": "What will happen to the thing being held, and whether it can land here."
+  },
+  {
+    "id": "resize",
+    "title": "Resize",
+    "description": "Which edge moves. Many platforms draw the one-way values with the same two-headed arrow, so prefer ew, ns, nesw and nwse unless an edge can truly move only one way."
+  },
+  {
+    "id": "scroll",
+    "title": "Scroll and zoom",
+    "description": "Panning in every direction and magnifying content."
+  },
+  {
+    "id": "custom",
+    "title": "Custom",
+    "description": "Your own image, always with a keyword fallback."
+  }
+]

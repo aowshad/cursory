@@ -2,12 +2,15 @@
   "name": "cursory",
   "private": true,
   "type": "module",
-  "description": "Dev-only tooling for Cursory. The site itself has no dependencies.",
+  "description": "Build tooling and tests for Cursory. The published site itself has no dependencies.",
   "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs --serve",
     "test": "node tests/lint.test.mjs"
   },
   "devDependencies": {
     "css-tree": "2.3.1",
-    "linkedom": "0.18.13"
+    "linkedom": "0.18.13",
+    "playwright": "1.63.0"
   }
 }
